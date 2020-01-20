@@ -14,8 +14,8 @@ To use the DualView and ExtendCanvas samples, you will first need to create an G
 
 After you have an API key, put it in the following files:
 
- - DualView/src/main/assets/googlemap.html
- - ExtendCanvas/src/main/assets/googlemapsearch.html
+ - DualView/Resources/Assets/googlemap.html
+ - ExtendCanvas/Resources/Assets/googlemapsearch.html
 
 By replacing `YOUR_API_KEY` string with your actual key
 
