@@ -1,0 +1,12 @@
+<!--
+  ~ Copyright (c) Microsoft Corporation. All rights reserved.
+  ~ Licensed under the MIT License.
+  -->
+
+<resources>
+    <string name="app_name">Master Detail</string>
+    <string name="rating">Rating:</string>
+    <string name="details">Details:</string>
+    <string name="title">Title:</string>
+    <string name="item_image">Item image</string>
+</resources>

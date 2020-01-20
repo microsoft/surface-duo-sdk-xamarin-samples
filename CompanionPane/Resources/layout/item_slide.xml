@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_slide_height"
+    android:layout_margin="@dimen/card_view_margin"
+    android:clickable="true"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
+    android:foreground="@drawable/selector_item_selected"
+    app:cardCornerRadius="@dimen/card_view_radius">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/slide_content"
+            android:layout_width="@dimen/item_slide_content_width"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/text_view_padding"
+            android:paddingEnd="@dimen/text_view_padding"
+            android:textSize="@dimen/item_slide_content_text_size" />
+
+        <TextView
+            android:id="@+id/slide_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/text_view_padding"
+            android:paddingEnd="@dimen/text_view_padding"
+            android:background="@android:color/darker_gray" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

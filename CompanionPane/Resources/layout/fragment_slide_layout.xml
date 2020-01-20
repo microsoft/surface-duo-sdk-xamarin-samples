@@ -1,0 +1,18 @@
+<!--
+  ~ Copyright (c) Microsoft Corporation. All rights reserved.
+  ~ Licensed under the MIT License.
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/lightGray">
+        <TextView
+            android:id="@+id/text_view"
+            android:layout_width="@dimen/slide_width"
+            android:layout_height="@dimen/slide_height"
+            android:gravity="center"
+            android:textSize="@dimen/text_size"
+            android:background="@android:color/white" />
+</LinearLayout>

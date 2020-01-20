@@ -1,0 +1,14 @@
+<resources>
+    <dimen name="slide_width">450dp</dimen>
+    <dimen name="slide_height">350dp</dimen>
+    <dimen name="text_size">28sp</dimen>
+    <dimen name="recycler_view_padding_h">30dp</dimen>
+    <dimen name="recycler_view_padding_v">30dp</dimen>
+    <dimen name="card_view_radius">10dp</dimen>
+    <dimen name="card_view_margin">10dp</dimen>
+    <dimen name="text_view_padding">20dp</dimen>
+    <dimen name="stroke_width">2dp</dimen>
+    <dimen name="item_slide_height">100dp</dimen>
+    <dimen name="item_slide_content_width">100dp</dimen>
+    <dimen name="item_slide_content_text_size">8sp</dimen>
+</resources>
