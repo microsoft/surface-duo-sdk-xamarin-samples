@@ -9,7 +9,7 @@
              Visual="Material"
              x:Name="mainPage">
     <local:DuoPage.Content>
-        <CollectionView x:Name="cv" BackgroundColor="Black">
+        <CollectionView x:Name="cv" BackgroundColor="LightGray">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout 
                     SnapPointsAlignment="Start" 
