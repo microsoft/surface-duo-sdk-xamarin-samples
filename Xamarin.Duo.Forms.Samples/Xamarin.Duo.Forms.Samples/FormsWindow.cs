@@ -25,9 +25,32 @@ namespace Xamarin.Duo.Forms.Samples
         public FormsWindow(ContentPage contentPage)
         {
             _mainPage = contentPage;
-            LayoutService.LayoutGuideChanged += OnLayoutGuideChanged;
             _mainPage.LayoutChanged += (_, __) => UpdateLayouts();
-            HingeService.OnHingeUpdated += (_, __) => UpdateLayouts();
+
+            _mainPage.Appearing += OnPageAppearing;
+            _mainPage.Disappearing += OnPageDisappearing;
+            LayoutService.LayoutGuideChanged += OnLayoutGuideChanged;
+            HingeService.OnHingeUpdated += OnHingeUpdated;
+        }
+
+        void OnHingeUpdated(object sender, HingeEventArgs e)
+        {
+            UpdateLayouts();
+        }
+
+        void OnPageDisappearing(object sender, EventArgs e)
+        {
+            LayoutService.LayoutGuideChanged -= OnLayoutGuideChanged;
+            HingeService.OnHingeUpdated -= OnHingeUpdated;
+        }
+
+        void OnPageAppearing(object sender, EventArgs e)
+        {
+            LayoutService.LayoutGuideChanged -= OnLayoutGuideChanged;
+            LayoutService.LayoutGuideChanged += OnLayoutGuideChanged;
+
+            HingeService.OnHingeUpdated -= OnHingeUpdated; 
+            HingeService.OnHingeUpdated += OnHingeUpdated;
         }
 
         Page GetDisplayedPage(Page rootPage)
@@ -107,21 +130,6 @@ namespace Xamarin.Duo.Forms.Samples
 
             if (containerArea.Width <= 0)
             {
-                //EventHandler handler = null;
-                //handler = (sender, __) =>
-                //{
-                //    var ca = (sender as IPageController).ContainerArea;
-                //    if (ca.Width <= 0)
-                //        return;
-
-                //    displayedPage.LayoutChanged -= handler;
-                //    Application.Current.MainPage.LayoutChanged -= handler;
-                //    UpdateLayouts();
-                //};
-
-                //Application.Current.MainPage.LayoutChanged += handler;
-                //displayedPage.LayoutChanged += handler;
-
                 return;
             }
 

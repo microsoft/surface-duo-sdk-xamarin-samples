@@ -16,6 +16,9 @@
             <Button Text="Master Detail" Clicked="OnNavigateToSample"></Button>
             <Button Text="Two Page" Clicked="OnNavigateToSample"></Button>
         </StackLayout>
+        <StackLayout>
+            <Label Text="Welcome to the Duo Samples!!"></Label>
+        </StackLayout>
     </local:TwoPaneView>
 
 </ContentPage>

@@ -27,6 +27,18 @@ namespace Xamarin.Duo.Forms.Samples
                 case "Two Page":
                     Navigation.PushAsync(new TwoPage());
                     break;
+                case "Dual View":
+                    Navigation.PushAsync(new DualView());
+                    break;
+                case "Extend Canvas":
+                    Navigation.PushAsync(new ExtendCanvas());
+                    break;
+                case "Master Detail":
+                    Navigation.PushAsync(new MasterDetail());
+                    break;
+                case "TwoCompanion Panee":
+                    Navigation.PushAsync(new CompanionPane());
+                    break;
             }
         }
     }
