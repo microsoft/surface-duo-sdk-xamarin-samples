@@ -15,10 +15,6 @@ namespace Xamarin.Duo.Forms.Samples
         public TwoPage()
         {
             InitializeComponent();
-            cv.ItemsSource =
-                Enumerable.Range(0, 1000)
-                    .Select(i => $"Page {i}")
-                    .ToList();
         }
     }
 }

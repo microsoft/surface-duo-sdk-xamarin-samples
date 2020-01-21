@@ -9,7 +9,17 @@
              Visual="Material"
              x:Name="mainPage">
     <local:DuoPage.Content>
-        <CollectionView x:Name="cv">
+        <CollectionView x:Name="cv" BackgroundColor="Black">
+            <d:CollectionView.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Page 1</x:String>
+                    <x:String>Page 2</x:String>
+                    <x:String>Page 3</x:String>
+                    <x:String>Page 4</x:String>
+                    <x:String>Page 5</x:String>
+                    <x:String>Page 6</x:String>
+                </x:Array>
+            </d:CollectionView.ItemsSource>
             <CollectionView.ItemsLayout>
                 <GridItemsLayout 
                     SnapPointsAlignment="Start" 
@@ -19,10 +29,10 @@
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame WidthRequest="{Binding Source={x:Reference mainPage}, Path=FormsWindow.Pane1.Width}" Margin="0" Padding="0">
-                        <StackLayout HorizontalOptions="Fill" VerticalOptions="Fill">
-                            <Label Text="{Binding .}" HorizontalOptions="Center" VerticalOptions="Center"></Label>
-                        </StackLayout>
+                    <Frame BackgroundColor="LightGray" Padding="0" Margin="0" WidthRequest="{Binding Source={x:Reference mainPage}, Path=FormsWindow.Pane1.Width}">
+                        <Frame Margin="20">
+                            <Label FontSize="Large" Text="{Binding .}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HorizontalOptions="Center" VerticalOptions="Center"></Label>
+                        </Frame>
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
