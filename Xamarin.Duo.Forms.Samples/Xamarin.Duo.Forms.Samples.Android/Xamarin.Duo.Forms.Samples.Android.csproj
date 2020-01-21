@@ -94,7 +94,7 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\drawable\" />
+    <AndroidResource Include="Resources\drawable\ic_movie_black_24dp.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Xamarin.Duo.Forms.Samples\Xamarin.Duo.Forms.Samples.csproj">

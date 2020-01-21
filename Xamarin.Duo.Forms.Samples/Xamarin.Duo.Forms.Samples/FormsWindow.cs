@@ -12,23 +12,23 @@ namespace Xamarin.Duo.Forms.Samples
         ILayoutService LayoutService => DependencyService.Get<ILayoutService>();
         IHingeService HingeService => DependencyService.Get<IHingeService>();
 
-        private Rectangle hinge;
-        private Rectangle toolbar;
-        private Rectangle leftPane;
-        private Rectangle rightPane;
-        private bool isSpanned;
-        private bool isLandscape;
-        private bool isPortrait;
-        private Rectangle containerArea;
-        private Page _mainPage;
+        Rectangle hinge;
+        Rectangle toolbar;
+        Rectangle leftPane;
+        Rectangle rightPane;
+        bool isSpanned;
+        bool isLandscape;
+        bool isPortrait;
+        Rectangle containerArea;
+        Page _mainPage;
 
         public FormsWindow(ContentPage contentPage)
         {
             _mainPage = contentPage;
-            _mainPage.LayoutChanged += OnMainPageLayoutChanged;
             _mainPage.Appearing += OnPageAppearing;
             _mainPage.Disappearing += OnPageDisappearing;
 
+            _mainPage.LayoutChanged += OnMainPageLayoutChanged;
             LayoutService.LayoutGuideChanged += OnLayoutGuideChanged;
             HingeService.OnHingeUpdated += OnHingeUpdated;
         }
@@ -60,6 +60,8 @@ namespace Xamarin.Duo.Forms.Samples
 
             _mainPage.LayoutChanged -= OnMainPageLayoutChanged;
             _mainPage.LayoutChanged += OnMainPageLayoutChanged;
+
+            UpdateLayouts();
         }
 
         Page GetDisplayedPage(Page rootPage)
@@ -185,7 +187,7 @@ namespace Xamarin.Duo.Forms.Samples
             ContainerArea = containerArea;
         }
 
-        private void OnLayoutGuideChanged(object sender, LayoutGuideChangedArgs e)
+        void OnLayoutGuideChanged(object sender, LayoutGuideChangedArgs e)
         {
             if (e.LayoutGuide.Name == "Hinge")
                 Hinge = e.LayoutGuide.Rectangle;
@@ -197,6 +199,7 @@ namespace Xamarin.Duo.Forms.Samples
         {
             get
             {
+                isPortrait = !HingeService.IsLandscape;
                 return isPortrait;
             }
             set
@@ -209,6 +212,7 @@ namespace Xamarin.Duo.Forms.Samples
         {
             get
             {
+                IsLandscape = HingeService.IsLandscape;
                 return isLandscape;
             }
             set
@@ -221,6 +225,7 @@ namespace Xamarin.Duo.Forms.Samples
         {
             get
             {
+                isSpanned = HingeService.IsSpanned;
                 return isSpanned;
             }
             set
@@ -285,8 +290,6 @@ namespace Xamarin.Duo.Forms.Samples
                 SetProperty(ref toolbar, value);
             }
         }
-
-
 
         protected bool SetProperty<T>(ref T backingStore, T value,
             [CallerMemberName]string propertyName = "",

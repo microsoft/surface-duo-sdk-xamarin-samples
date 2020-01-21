@@ -6,11 +6,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="Xamarin.Duo.Forms.Samples.MasterDetail">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+    <local:TwoPaneView>
+        <local:Master x:Name="masterPage"></local:Master>
+        <local:Details x:Name="detailsPage"></local:Details>
+    </local:TwoPaneView>
 </local:DuoPage>

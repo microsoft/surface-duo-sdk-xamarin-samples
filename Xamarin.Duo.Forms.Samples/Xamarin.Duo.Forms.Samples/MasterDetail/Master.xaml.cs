@@ -10,11 +10,14 @@ using Xamarin.Forms.Xaml;
 namespace Xamarin.Duo.Forms.Samples
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MasterDetail : DuoPage
+    public partial class Master : CollectionView
     {
-        public MasterDetail()
+        public Master()
         {
             InitializeComponent();
+            ItemsSource = Enumerable.Range(1, 6)
+                .Select(x => new MasterDetailsItem(x))
+                .ToList();
         }
     }
 }
