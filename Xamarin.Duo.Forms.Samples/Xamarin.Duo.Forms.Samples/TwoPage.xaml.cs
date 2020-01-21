@@ -81,14 +81,11 @@ namespace Xamarin.Duo.Forms.Samples
 
             if (Content == null)
             {
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    Content = resetCV;
-                    resetCV.ItemsSource =
-                        Enumerable.Range(0, 1000)
-                            .Select(i => $"Page {i}")
-                            .ToList();
-                });
+                Content = resetCV;
+                resetCV.ItemsSource =
+                    Enumerable.Range(0, 1000)
+                        .Select(i => $"Page {i}")
+                        .ToList();
             }
         }
     }
