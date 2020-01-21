@@ -25,12 +25,17 @@ namespace Xamarin.Duo.Forms.Samples
         public FormsWindow(ContentPage contentPage)
         {
             _mainPage = contentPage;
-            _mainPage.LayoutChanged += (_, __) => UpdateLayouts();
-
+            _mainPage.LayoutChanged += OnMainPageLayoutChanged;
             _mainPage.Appearing += OnPageAppearing;
             _mainPage.Disappearing += OnPageDisappearing;
+
             LayoutService.LayoutGuideChanged += OnLayoutGuideChanged;
             HingeService.OnHingeUpdated += OnHingeUpdated;
+        }
+
+        void OnMainPageLayoutChanged(object sender, EventArgs e)
+        {
+            UpdateLayouts();
         }
 
         void OnHingeUpdated(object sender, HingeEventArgs e)
@@ -42,6 +47,7 @@ namespace Xamarin.Duo.Forms.Samples
         {
             LayoutService.LayoutGuideChanged -= OnLayoutGuideChanged;
             HingeService.OnHingeUpdated -= OnHingeUpdated;
+            _mainPage.LayoutChanged -= OnMainPageLayoutChanged;
         }
 
         void OnPageAppearing(object sender, EventArgs e)
@@ -51,6 +57,9 @@ namespace Xamarin.Duo.Forms.Samples
 
             HingeService.OnHingeUpdated -= OnHingeUpdated; 
             HingeService.OnHingeUpdated += OnHingeUpdated;
+
+            _mainPage.LayoutChanged -= OnMainPageLayoutChanged;
+            _mainPage.LayoutChanged += OnMainPageLayoutChanged;
         }
 
         Page GetDisplayedPage(Page rootPage)
