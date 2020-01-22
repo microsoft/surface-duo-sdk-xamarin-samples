@@ -15,7 +15,7 @@ namespace Xamarin.Duo.Forms.Samples
         public Master()
         {
             InitializeComponent();
-            ItemsSource = Enumerable.Range(1, 6)
+            ItemsSource = Enumerable.Range(1, 100)
                 .Select(x => new MasterDetailsItem(x))
                 .ToList();
         }

@@ -31,9 +31,9 @@ namespace Xamarin.Duo.Forms.Samples
 
         async void OnFormsWindowPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if(e.PropertyName == nameof(FormsWindow.IsSpanned))
+            if(e.PropertyName == nameof(FormsWindow.IsSpanned) || e.PropertyName == nameof(FormsWindow.IsPortrait))
             {
-                if (FormsWindow.IsSpanned)
+                if (FormsWindow.IsSpanned && FormsWindow.IsPortrait)
                     await Navigation.PopAsync();
             }
         }

@@ -24,6 +24,7 @@ namespace Xamarin.Duo.Forms.Samples
 		bool isDuo = false;
 		HingeSensor hingeSensor;
 		int _hingeAngle;
+		Rectangle _hingeLocation;
 		static Activity mainActivity;
 
 		public static Activity MainActivity 
@@ -51,7 +52,11 @@ namespace Xamarin.Duo.Forms.Samples
 
 		void OnSensorChanged(object sender, HingeSensor.HingeSensorChangedEventArgs e)
 		{
-			LayoutService.AddLayoutGuide("Hinge", GetHinge());
+			if(_hingeLocation != GetHinge())
+			{
+				_hingeLocation = GetHinge();
+				LayoutService.AddLayoutGuide("Hinge", _hingeLocation);
+			}
 
 			if(_hingeAngle != e.HingeAngle)
 				OnHingeUpdated?.Invoke(this, new HingeEventArgs(e.HingeAngle));

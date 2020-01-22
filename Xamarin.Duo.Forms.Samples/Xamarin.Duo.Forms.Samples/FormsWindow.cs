@@ -145,6 +145,14 @@ namespace Xamarin.Duo.Forms.Samples
             }
 
 
+
+            IsSpanned = HingeService.IsSpanned;
+            IsPortrait = !HingeService.IsLandscape;
+            IsLandscape = HingeService.IsLandscape;
+            ContainerArea = containerArea;
+            Hinge = HingeService.GetHinge();
+
+
             if (!HingeService.IsLandscape)
             {
                 if (HingeService.IsSpanned)
@@ -180,11 +188,6 @@ namespace Xamarin.Duo.Forms.Samples
                     Pane2 = Rectangle.Zero;
                 }
             }
-
-            IsSpanned = HingeService.IsSpanned;
-            IsPortrait = !HingeService.IsLandscape;
-            IsLandscape = HingeService.IsLandscape;
-            ContainerArea = containerArea;
         }
 
         void OnLayoutGuideChanged(object sender, LayoutGuideChangedArgs e)

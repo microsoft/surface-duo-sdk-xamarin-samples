@@ -58,41 +58,14 @@ namespace Xamarin.Duo.Forms.Samples
             InvalidateLayout();
         }
 
-        public static readonly BindableProperty LandscapeBehaviorProperty =
-            BindableProperty.Create(nameof(LandscapeBehavior), typeof(DuoSplitPaneBehavior), typeof(TwoPaneView), DuoSplitPaneBehavior.ShowBoth);
-
-        public static readonly BindableProperty PortraitBehaviorProperty =
-            BindableProperty.Create(nameof(PortraitBehavior), typeof(DuoSplitPaneBehavior), typeof(TwoPaneView), DuoSplitPaneBehavior.ShowBoth);
-
-
-        public DuoSplitPaneBehavior LandscapeBehavior
-        {
-            get => (DuoSplitPaneBehavior)GetValue(LandscapeBehaviorProperty);
-            set
-            {
-                SetValue(LandscapeBehaviorProperty, value);
-                InvalidateLayout();
-            }
-        }
-
-        public DuoSplitPaneBehavior PortraitBehavior
-        {
-            get => (DuoSplitPaneBehavior)GetValue(PortraitBehaviorProperty);
-            set
-            {
-                SetValue(PortraitBehaviorProperty, value);
-                InvalidateLayout();
-            }
-        }
-
-        public View Left
+        public View Pane1
             => Children?.FirstOrDefault();
 
-        public View Right
+        public View Pane2
             => Children?.Skip(1)?.FirstOrDefault();
 
         public bool IsDualView
-            => Left.IsVisible && Right.IsVisible;
+            => Pane1.IsVisible && Pane2.IsVisible;
 
         public bool IsLandscape
             => ScreenViewModel.IsLandscape;
@@ -105,55 +78,43 @@ namespace Xamarin.Duo.Forms.Samples
 
         protected override void LayoutChildren(double x, double y, double width, double height)
         {
-            var left = Left;
-            var right = Right;
+            var left = Pane1;
+            var right = Pane2;
 
             if (left == null)
                 return;
 
-            var screenViewModel = ScreenViewModel;
-            var lefTPane = screenViewModel.Pane1;
-            var rightPane = screenViewModel.Pane2;
+            var formsWindows = ScreenViewModel;
+            var pane1 = formsWindows.Pane1;
+            var pane2 = formsWindows.Pane2;
 
             Rectangle leftViewRect = Rectangle.Zero;
             Rectangle rightViewRect = Rectangle.Zero;
 
-            DuoSplitPaneBehavior duoSplitPaneBehavior;
-
-            if (screenViewModel.IsPortrait)
-                duoSplitPaneBehavior = PortraitBehavior;
-            else
-                duoSplitPaneBehavior = LandscapeBehavior;
-
-            if (!screenViewModel.IsSpanned)
+            if (!formsWindows.IsSpanned)
             {
-                leftViewRect = lefTPane;
-                rightViewRect = rightPane;
+                leftViewRect = pane1;
+                rightViewRect = pane2;
                 if(right != null)
                     right.IsVisible = false;
+
                 left.IsVisible = true;
             }
-            else if (duoSplitPaneBehavior == DuoSplitPaneBehavior.ShowOnlyLeft)
-            {
-                if (right != null)
-                    right.IsVisible = false;
-                left.IsVisible = true;
-                rightViewRect = screenViewModel.ContainerArea;
-            }
-            else if (duoSplitPaneBehavior == DuoSplitPaneBehavior.ShowOnlyRight)
+            else if (formsWindows.IsPortrait)
             {
                 if (right != null)
                     right.IsVisible = true;
-                left.IsVisible = false;
-                leftViewRect = screenViewModel.ContainerArea;
+
+                leftViewRect = pane1;
+                rightViewRect = pane2;
             }
             else
             {
-                leftViewRect = lefTPane;
-                rightViewRect = rightPane;
                 if (right != null)
-                    right.IsVisible = screenViewModel.IsSpanned;
+                    right.IsVisible = false;
+
                 left.IsVisible = true;
+                leftViewRect = formsWindows.ContainerArea;
             }
 
             if (left.IsVisible)

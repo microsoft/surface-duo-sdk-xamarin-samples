@@ -27,48 +27,48 @@ namespace Xamarin.Duo.Forms.Samples
             if (e.CurrentSelection == null || e.CurrentSelection.Count == 0)
                 return;
 
-            detailsPage.BindingContext = e.CurrentSelection[0];
-            SetupViews();
+            SetBindingContext();
+            SetupViews();            
+        }
+
+
+        void SetBindingContext()
+        {
+            var bindingContext = masterPage.SelectedItem ?? (masterPage.ItemsSource as IList<MasterDetailsItem>)[0];
+            detailsPagePushed.BindingContext = bindingContext;
+            detailsPage.BindingContext = bindingContext;
         }
 
         async void SetupViews()
         {
-            if (masterPage.SelectedItem == null && FormsWindow.IsSpanned)
-                masterPage.SelectedItem = (masterPage.ItemsSource as IList<MasterDetailsItem>)[0];
+            if (FormsWindow.IsSpanned && FormsWindow.IsPortrait)
+                SetBindingContext();
 
-            GetDetailsContent().BindingContext = masterPage.SelectedItem;
-            if (FormsWindow.IsSpanned)
-            {
-                if(Navigation.NavigationStack.Contains(detailsPagePushed))
-                {
-                    await Navigation.PopAsync();
-                }
-            }
-            else
+            if (detailsPage.BindingContext == null)
+                return;
+
+            if (!FormsWindow.IsSpanned || FormsWindow.IsLandscape)
             {
                 if (!Navigation.NavigationStack.Contains(detailsPagePushed))
                 {
                     await Navigation.PushAsync(detailsPagePushed);
                 }
             }
+
+        }
+
+        protected override void OnAppearing()
+        {
+            if (!FormsWindow.IsSpanned)
+                masterPage.SelectedItem = null;
         }
 
         void OnFormsWindowPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if(e.PropertyName == nameof(FormsWindow.IsSpanned))
+            if(e.PropertyName == nameof(FormsWindow.IsSpanned) || e.PropertyName == nameof(FormsWindow.IsPortrait))
             {
                 SetupViews();
             }
-        }
-
-        BindableObject GetDetailsContent()
-        {
-            if(FormsWindow.IsSpanned)
-            {
-                return detailsPage;
-            }
-
-            return detailsPagePushed;
         }
     }
 }

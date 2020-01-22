@@ -4,12 +4,16 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="Xamarin.Duo.Forms.Samples.Master"
+             x:Class="Xamarin.Duo.Forms.Samples.Master"             
              SelectionMode="Single">
 
     <CollectionView.ItemTemplate>
         <DataTemplate>
-            <Label FontSize="Title" Text="{Binding Title}"></Label>
+            <Frame Visual="Material" BorderColor="LightGray">
+                <StackLayout Padding="5">
+                    <Label FontSize="Title" Text="{Binding Title}"></Label>
+                </StackLayout>
+            </Frame>
         </DataTemplate>
     </CollectionView.ItemTemplate>
 </CollectionView>

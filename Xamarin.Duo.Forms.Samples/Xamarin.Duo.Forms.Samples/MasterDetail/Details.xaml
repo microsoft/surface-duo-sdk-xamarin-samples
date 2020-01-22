@@ -17,9 +17,8 @@
     </Grid.RowDefinitions>
     <Image Margin="16, 16, 0, 0" WidthRequest="100" HeightRequest="100" Source="ic_movie_black_24dp"></Image>
 
-    <Grid Grid.Column="1">
+    <Grid Grid.Column="1" VerticalOptions="Center">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
@@ -30,9 +29,8 @@
         </Grid.ColumnDefinitions>
         <Label FontSize="Title" FontAttributes="Bold" Text="Title:"></Label>
         <Label FontSize="Title" Grid.Row="1" FontAttributes="Bold" Text="Details:"></Label>
-        <Label FontSize="Title" Grid.Row="2" FontAttributes="Bold" Text="Rating:"></Label>
 
-        <Label Grid.Column="1" FontAttributes="Bold" Text="{Binding Title}"></Label>
-        <Label Grid.Column="1" Grid.Row="1" FontAttributes="Bold" Text="{Binding Details}"></Label>
+        <Label Grid.Column="1" Text="{Binding Title}"  VerticalTextAlignment="Center"></Label>
+        <Label Grid.Column="1" Grid.Row="1" Text="{Binding Details}"  VerticalTextAlignment="Center"></Label>
     </Grid>
 </Grid>
