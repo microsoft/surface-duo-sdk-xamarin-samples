@@ -28,19 +28,26 @@ namespace Xamarin.Duo.Forms.Samples
 
         void OnFormsWindowPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            if (Content == null)
+                return;
+
             if(e.PropertyName == nameof(FormsWindow.IsLandscape) || e.PropertyName == nameof(FormsWindow.IsPortrait))
             {                
                 SetupColletionViewLayout();
                 OnPropertyChanged(nameof(ContentHeight));
+                OnPropertyChanged(nameof(ContentWidth));
             }
             else if (e.PropertyName == nameof(FormsWindow.Pane2))
             {
                 OnPropertyChanged(nameof(ContentHeight));
+                OnPropertyChanged(nameof(ContentWidth));
             }
         }
 
         public double ContentHeight => (FormsWindow.IsPortrait) ? FormsWindow.Pane1.Height :  FormsWindow.Pane1.Height + FormsWindow.Pane2.Height;
 
+        public double ContentWidth => (FormsWindow.Pane1.Width);
+        
         protected override void OnAppearing()
         {
             base.OnAppearing();

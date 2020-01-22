@@ -215,7 +215,7 @@ namespace Xamarin.Duo.Forms.Samples
         {
             get
             {
-                IsLandscape = HingeService.IsLandscape;
+                isLandscape = HingeService.IsLandscape;
                 return isLandscape;
             }
             set

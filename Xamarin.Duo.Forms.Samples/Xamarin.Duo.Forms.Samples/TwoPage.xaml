@@ -20,7 +20,7 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Frame BackgroundColor="LightGray" Padding="0" Margin="0" 
-                           WidthRequest="{Binding Source={x:Reference mainPage}, Path=FormsWindow.Pane1.Width}"
+                           WidthRequest="{Binding Source={x:Reference mainPage}, Path=ContentWidth}"
                            HeightRequest="{Binding Source={x:Reference mainPage}, Path=ContentHeight}">
                         <Frame Margin="20" BackgroundColor="White">
                             <Label FontSize="Large" Text="{Binding .}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HorizontalOptions="Center" VerticalOptions="Center"></Label>
