@@ -15,6 +15,24 @@ namespace Xamarin.Duo.Forms.Samples
         public ExtendCanvas()
         {
             InitializeComponent();
+
+            searchBar.SearchButtonPressed += SearchBar_SearchButtonPressed;
+
+            webView.Source = "file:///android_asset/googlemapsearch.html";
+
+            StartSearch();
+        }
+
+        private void SearchBar_SearchButtonPressed(object sender, EventArgs e)
+        {
+            StartSearch();
+        }
+
+        void StartSearch()
+        {
+            var place = searchBar?.Text ?? string.Empty;
+
+            webView.EvaluateJavaScriptAsync("searchMap('" + place.Replace("\'", "") + "');");
         }
     }
 }
