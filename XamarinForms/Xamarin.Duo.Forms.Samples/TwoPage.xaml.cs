@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace Xamarin.Duo.Forms.Samples
     {
         IItemsLayout linearLayout = null;
         IItemsLayout gridLayout = null;
+        bool disableUpdates = false;
 
         public TwoPage()
         {
@@ -28,14 +30,12 @@ namespace Xamarin.Duo.Forms.Samples
 
         void OnFormsWindowPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (Content == null)
+            if (Content == null || disableUpdates)
                 return;
 
             if(e.PropertyName == nameof(FormsWindow.IsLandscape) || e.PropertyName == nameof(FormsWindow.IsPortrait))
             {                
                 SetupColletionViewLayout();
-                OnPropertyChanged(nameof(ContentHeight));
-                OnPropertyChanged(nameof(ContentWidth));
             }
             else if (e.PropertyName == nameof(FormsWindow.Pane2))
             {
@@ -56,6 +56,7 @@ namespace Xamarin.Duo.Forms.Samples
 
         void SetupColletionViewLayout()
         {
+            disableUpdates = true;
             var resetCV = cv;
             if (linearLayout == null && cv.ItemsLayout is LinearItemsLayout linear)
             {
@@ -88,11 +89,20 @@ namespace Xamarin.Duo.Forms.Samples
 
             if (Content == null)
             {
-                Content = resetCV;
-                resetCV.ItemsSource =
-                    Enumerable.Range(0, 1000)
-                        .Select(i => $"Page {i}")
-                        .ToList();
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    Content = resetCV;
+                    resetCV.ItemsSource =
+                        Enumerable.Range(0, 1000)
+                            .Select(i => $"Page {i}")
+                            .ToList();
+
+                    disableUpdates = false;
+                });
+            }
+            else
+            {
+                disableUpdates = false;
             }
         }
     }
