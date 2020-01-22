@@ -9,7 +9,7 @@
              x:Class="Xamarin.Duo.Forms.Samples.CompanionPane"
              Visual="Material">
     <local:TwoPaneView x:Name="twoPaneView">
-        <CarouselView x:Name="cv" BackgroundColor="LightGray" >
+        <CarouselView x:Name="cv" BackgroundColor="LightGray" IsScrollAnimated="False" >
             <CarouselView.ItemTemplate>
                 <DataTemplate>
                     <Frame BackgroundColor="LightGray" Padding="0" Margin="0" 
@@ -51,10 +51,10 @@
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame CornerRadius="10" HeightRequest="100" BackgroundColor="White" Margin="0" Padding="1">
+                    <Frame WidthRequest="{Binding Source={x:Reference mainPage}, Path=FormsWindow.Pane2.Width}" CornerRadius="10" HeightRequest="100" BackgroundColor="White" Margin="0" Padding="1">
                         <StackLayout HorizontalOptions="Fill" VerticalOptions="Fill"  Orientation="Horizontal">
-                            <Label FontSize="8" Padding="20,0,20,0" VerticalTextAlignment="Center" WidthRequest="100" Text="{Binding ., StringFormat='Slide Content {0}'}"></Label>
-                            <Label FontSize="Micro" Padding="20,0,20,0" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" BackgroundColor="DarkGray"  Grid.Column="1" Text="{Binding ., StringFormat='Slide {0}'}"></Label>
+                            <Label FontSize="Micro" Padding="20,0,20,0" VerticalTextAlignment="Center" WidthRequest="140" Text="{Binding ., StringFormat='Slide Content {0}'}"></Label>
+                            <Label FontSize="Small" Padding="20,0,20,0" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" BackgroundColor="DarkGray"  Grid.Column="1" Text="{Binding ., StringFormat='Slide {0}'}"></Label>
                         </StackLayout>
                     </Frame>
                 </DataTemplate>
