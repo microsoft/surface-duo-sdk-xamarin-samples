@@ -96,16 +96,16 @@
     <AndroidResource Include="Resources\drawable\ic_movie_black_24dp.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Xamarin.Duo.Forms.Samples\Xamarin.Duo.Forms.Samples.csproj">
-      <Project>{B2740FC4-36DF-4586-B2C8-B7DF8B46F754}</Project>
-      <Name>Xamarin.Duo.Forms.Samples</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="Assets\googlemapsearch.html" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\googlemap.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Xamarin.Duo.Forms.Samples\Xamarin.Duo.Forms.Samples.csproj">
+      <Project>{26072a28-686c-455a-81f2-ba054264c54d}</Project>
+      <Name>Xamarin.Duo.Forms.Samples</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

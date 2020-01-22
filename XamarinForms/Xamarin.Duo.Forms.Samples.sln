@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xamarin.Duo.Forms.Samples.Android", "Xamarin.Duo.Forms.Samples.Android\Xamarin.Duo.Forms.Samples.Android.csproj", "{B3B6965A-7627-40D5-BFBE-1946343F08AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xamarin.Duo.Forms.Samples", "Xamarin.Duo.Forms.Samples\Xamarin.Duo.Forms.Samples.csproj", "{26072A28-686C-455A-81F2-BA054264C54D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xamarin.Duo.Forms.Samples", "Xamarin.Duo.Forms.Samples\Xamarin.Duo.Forms.Samples.csproj", "{6EB0B1C9-1829-4C65-A02E-E75DCF3E0DFC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xamarin.Duo.Forms.Samples.Android", "Xamarin.Duo.Forms.Samples.Android\Xamarin.Duo.Forms.Samples.Android.csproj", "{B3B6965A-7627-40D5-BFBE-1946343F08AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,18 +13,16 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{26072A28-686C-455A-81F2-BA054264C54D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26072A28-686C-455A-81F2-BA054264C54D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26072A28-686C-455A-81F2-BA054264C54D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26072A28-686C-455A-81F2-BA054264C54D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B3B6965A-7627-40D5-BFBE-1946343F08AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B3B6965A-7627-40D5-BFBE-1946343F08AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3B6965A-7627-40D5-BFBE-1946343F08AA}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{B3B6965A-7627-40D5-BFBE-1946343F08AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3B6965A-7627-40D5-BFBE-1946343F08AA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B3B6965A-7627-40D5-BFBE-1946343F08AA}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{6EB0B1C9-1829-4C65-A02E-E75DCF3E0DFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6EB0B1C9-1829-4C65-A02E-E75DCF3E0DFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6EB0B1C9-1829-4C65-A02E-E75DCF3E0DFC}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{6EB0B1C9-1829-4C65-A02E-E75DCF3E0DFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6EB0B1C9-1829-4C65-A02E-E75DCF3E0DFC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6EB0B1C9-1829-4C65-A02E-E75DCF3E0DFC}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
