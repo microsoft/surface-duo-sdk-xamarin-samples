@@ -28,6 +28,9 @@ namespace Xamarin.Duo.Forms.Samples
             cv.ItemsSource = _dataSource;
 
             indicators.SelectedItem = _dataSource[0];
+
+            cv.PositionChanged += OnCarouselViewPositionChanged;
+            indicators.SelectionChanged += OnIndicatorsSelectionChanged;
         }
 
         void OnIndicatorsSelectionChanged(object sender, SelectionChangedEventArgs e)

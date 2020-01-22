@@ -9,8 +9,7 @@
              x:Class="Xamarin.Duo.Forms.Samples.CompanionPane"
              Visual="Material">
     <local:TwoPaneView x:Name="twoPaneView">
-        <CarouselView x:Name="cv" BackgroundColor="LightGray" PositionChanged="OnCarouselViewPositionChanged" 
-                      HeightRequest="{Binding Source={x:Reference mainPage}, Path=FormsWindow.Pane1.Height}">
+        <CarouselView x:Name="cv" BackgroundColor="LightGray" >
             <CarouselView.ItemTemplate>
                 <DataTemplate>
                     <Frame BackgroundColor="LightGray" Padding="0" Margin="0" 
@@ -24,10 +23,10 @@
             </CarouselView.ItemTemplate>
         </CarouselView>
         <CollectionView x:Name="indicators" 
-            SelectionChanged="OnIndicatorsSelectionChanged"
             SelectionMode="Single"
             Margin="20, 20, 20, 20"
             BackgroundColor="White"
+            WidthRequest="{Binding Source={x:Reference mainPage}, Path=FormsWindow.Pane2.Width}"
             ItemsSource="{Binding Source={x:Reference cv}, Path=ItemsSource}">
             <CollectionView.Resources>
                 <ResourceDictionary>
