@@ -61,7 +61,7 @@ namespace Xamarin.Duo.Forms.Samples
             _mainPage.LayoutChanged -= OnMainPageLayoutChanged;
             _mainPage.LayoutChanged += OnMainPageLayoutChanged;
 
-            UpdateLayouts();
+            Device.BeginInvokeOnMainThread(() => UpdateLayouts());
         }
 
         Page GetDisplayedPage(Page rootPage)

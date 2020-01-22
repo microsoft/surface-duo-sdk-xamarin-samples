@@ -16,6 +16,7 @@ namespace Xamarin.Duo.Forms.Samples
         public MainPage()
         {
             InitializeComponent();
+            twoPaneView.TallModeConfiguration = TwoPaneViewTallModeConfiguration.TopBottom;
         }
 
         void OnNavigateToSample(object sender, EventArgs e)

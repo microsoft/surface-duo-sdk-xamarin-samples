@@ -7,17 +7,40 @@ using Xamarin.Forms;
 
 namespace Xamarin.Duo.Forms.Samples
 {
-    public enum DuoSplitPaneBehavior
+    public enum TwoPaneViewTallModeConfiguration
     {
-        ShowOnlyLeft,
-        ShowOnlyRight,
-        ShowBoth,
+        SinglePane,
+        TopBottom,
+        BottomTop,
+    }
+
+    public enum TwoPaneViewWideModeConfiguration
+    {
+        SinglePane,
+        LeftRight,
+        RightLeft,
     }
 
     public class TwoPaneView : Layout<View>
     {
         ContentPage _contentPage;
         FormsWindow _ScreenViewModel;
+
+        public static readonly BindableProperty TallModeConfigurationProperty = BindableProperty.Create("TallModeConfiguration", typeof(TwoPaneViewTallModeConfiguration), typeof(TwoPaneView), defaultValue: TwoPaneViewTallModeConfiguration.SinglePane);
+        public static readonly BindableProperty WideModeConfigurationProperty = BindableProperty.Create("WideModeConfiguration", typeof(TwoPaneViewWideModeConfiguration), typeof(TwoPaneView), defaultValue: TwoPaneViewWideModeConfiguration.LeftRight);
+
+
+        public TwoPaneViewTallModeConfiguration TallModeConfiguration
+        {
+            get { return (TwoPaneViewTallModeConfiguration)GetValue(TallModeConfigurationProperty); }
+            set { SetValue(TallModeConfigurationProperty, value); }
+        }
+
+        public TwoPaneViewWideModeConfiguration WideModeConfiguration
+        {
+            get { return (TwoPaneViewWideModeConfiguration)GetValue(WideModeConfigurationProperty); }
+            set { SetValue(WideModeConfigurationProperty, value); }
+        }
 
         public TwoPaneView() : base()
         {
@@ -102,19 +125,59 @@ namespace Xamarin.Duo.Forms.Samples
             }
             else if (formsWindows.IsPortrait)
             {
-                if (right != null)
-                    right.IsVisible = true;
+                if (WideModeConfiguration == TwoPaneViewWideModeConfiguration.LeftRight)
+                {
+                    if (right != null)
+                        right.IsVisible = true;
 
-                leftViewRect = pane1;
-                rightViewRect = pane2;
+                    leftViewRect = pane1;
+                    rightViewRect = pane2;
+                }
+                else if(WideModeConfiguration == TwoPaneViewWideModeConfiguration.RightLeft)
+                {
+                    if (right != null)
+                        right.IsVisible = true;
+
+                    left.IsVisible = true;
+                    leftViewRect = pane2;
+                    rightViewRect = pane1;
+                }
+                else if (WideModeConfiguration == TwoPaneViewWideModeConfiguration.SinglePane)
+                {
+                    if (right != null)
+                        right.IsVisible = false;
+
+                    left.IsVisible = true;
+                    leftViewRect = formsWindows.ContainerArea;
+                }
             }
             else
             {
-                if (right != null)
-                    right.IsVisible = false;
+                if (TallModeConfiguration == TwoPaneViewTallModeConfiguration.TopBottom)
+                {
+                    if (right != null)
+                        right.IsVisible = true;
 
-                left.IsVisible = true;
-                leftViewRect = formsWindows.ContainerArea;
+                    leftViewRect = pane1;
+                    rightViewRect = pane2;
+                }
+                else if (TallModeConfiguration == TwoPaneViewTallModeConfiguration.BottomTop)
+                {
+                    if (right != null)
+                        right.IsVisible = true;
+
+                    left.IsVisible = true;
+                    leftViewRect = pane2;
+                    rightViewRect = pane1;
+                }
+                else if (TallModeConfiguration == TwoPaneViewTallModeConfiguration.SinglePane)
+                {
+                    if (right != null)
+                        right.IsVisible = false;
+
+                    left.IsVisible = true;
+                    leftViewRect = formsWindows.ContainerArea;
+                }
             }
 
             if (left.IsVisible)

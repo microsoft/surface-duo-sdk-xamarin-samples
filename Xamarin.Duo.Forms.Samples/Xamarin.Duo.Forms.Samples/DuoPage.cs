@@ -20,7 +20,7 @@ namespace Xamarin.Duo.Forms.Samples
         public FormsWindow FormsWindow
         {
             get { return (FormsWindow)GetValue(FormsWindowProperty); }
-            set { SetValue(FormsWindowProperty, FormsWindow); }
+            set { SetValue(FormsWindowProperty, value); }
         }
 
 
