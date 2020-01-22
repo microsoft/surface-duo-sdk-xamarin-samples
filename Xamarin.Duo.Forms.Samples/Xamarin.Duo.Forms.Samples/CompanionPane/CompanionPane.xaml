@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<local:DuoPage
+    xmlns:local="clr-namespace:Xamarin.Duo.Forms.Samples" xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Name="mainPage"
+             x:Class="Xamarin.Duo.Forms.Samples.CompanionPane"
+             Visual="Material">
+    <local:TwoPaneView>
+        <CarouselView x:Name="cv" BackgroundColor="LightGray" PositionChanged="OnCarouselViewPositionChanged">
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BackgroundColor="LightGray" Padding="0" Margin="0" 
+                           WidthRequest="{Binding Source={x:Reference mainPage}, Path=FormsWindow.Pane1.Width}"
+                           HeightRequest="{Binding Source={x:Reference mainPage}, Path=FormsWindow.Pane1.Height}">
+                        <Frame Margin="20" BackgroundColor="White">
+                            <Label FontSize="Large" Text="{Binding ., StringFormat='Slide Content {0}'}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HorizontalOptions="Center" VerticalOptions="Center"></Label>
+                        </Frame>
+                    </Frame>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+        <CollectionView x:Name="indicators" 
+            SelectionChanged="OnIndicatorsSelectionChanged"
+            SelectionMode="Single"
+            Margin="20, 20, 20, 20"
+            BackgroundColor="White"
+            ItemsSource="{Binding Source={x:Reference cv}, Path=ItemsSource}">
+            <CollectionView.Resources>
+                <ResourceDictionary>
+                    <Style TargetType="Frame">
+                        <Setter Property="VisualStateManager.VisualStateGroups">
+                            <VisualStateGroupList>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BorderColor" Value="Green" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </Setter>
+                    </Style>
+                </ResourceDictionary>
+            </CollectionView.Resources>
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"></LinearItemsLayout>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame CornerRadius="10" HeightRequest="100" BackgroundColor="White" Margin="0" Padding="1">
+                        <StackLayout HorizontalOptions="Fill" VerticalOptions="Fill"  Orientation="Horizontal">
+                            <Label FontSize="8" Padding="20,0,20,0" VerticalTextAlignment="Center" WidthRequest="100" Text="{Binding ., StringFormat='Slide Content {0}'}"></Label>
+                            <Label FontSize="Micro" Padding="20,0,20,0" VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" BackgroundColor="DarkGray"  Grid.Column="1" Text="{Binding ., StringFormat='Slide {0}'}"></Label>
+                        </StackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </local:TwoPaneView>
+</local:DuoPage>

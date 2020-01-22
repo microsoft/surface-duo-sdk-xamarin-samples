@@ -21,6 +21,8 @@ namespace Xamarin.Duo.Forms.Samples.Droid
 
             base.OnCreate(savedInstanceState);
 
+            global::Xamarin.Forms.Forms.SetFlags("IndicatorView_Experimental", "CarouselView_Experimental");
+
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);

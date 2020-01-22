@@ -36,7 +36,7 @@ namespace Xamarin.Duo.Forms.Samples
                 case "Master Detail":
                     Navigation.PushAsync(new MasterDetail());
                     break;
-                case "TwoCompanion Panee":
+                case "Companion Pane":
                     Navigation.PushAsync(new CompanionPane());
                     break;
             }
