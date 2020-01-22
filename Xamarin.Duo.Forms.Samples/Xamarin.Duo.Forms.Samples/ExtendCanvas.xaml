@@ -6,11 +6,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="Xamarin.Duo.Forms.Samples.ExtendCanvas">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+	<ContentPage.Content>
+		<Grid>
+			<WebView x:Name="webView" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+			<SearchBar x:Name="searchBar" Placeholder="Search..." HorizontalOptions="FillAndExpand" VerticalOptions="Start" />
+		</Grid>
+	</ContentPage.Content>
 </local:DuoPage>
