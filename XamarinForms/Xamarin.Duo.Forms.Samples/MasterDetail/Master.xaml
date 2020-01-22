@@ -9,11 +9,13 @@
 
     <CollectionView.ItemTemplate>
         <DataTemplate>
-            <Frame Visual="Material" BorderColor="LightGray">
-                <StackLayout Padding="5">
-                    <Label FontSize="Title" Text="{Binding Title}"></Label>
-                </StackLayout>
-            </Frame>
+            <Grid Padding="10,5,10,5">
+                <Frame Visual="Material" BorderColor="LightGray">
+                    <StackLayout Padding="5">
+                        <Label FontSize="Title" Text="{Binding Title}"></Label>
+                    </StackLayout>
+                </Frame>
+            </Grid>
         </DataTemplate>
     </CollectionView.ItemTemplate>
 </CollectionView>
