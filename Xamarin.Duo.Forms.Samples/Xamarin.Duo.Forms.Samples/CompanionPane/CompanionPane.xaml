@@ -7,6 +7,7 @@
              mc:Ignorable="d"
              x:Name="mainPage"
              x:Class="Xamarin.Duo.Forms.Samples.CompanionPane"
+             BackgroundColor="LightGray"
              Visual="Material">
     <local:TwoPaneView x:Name="twoPaneView">
         <CarouselView x:Name="cv" BackgroundColor="LightGray" IsScrollAnimated="False" >
@@ -25,7 +26,7 @@
         <CollectionView x:Name="indicators" 
             SelectionMode="Single"
             Margin="20, 20, 20, 20"
-            BackgroundColor="White"
+            BackgroundColor="LightGray"
             WidthRequest="{Binding Source={x:Reference mainPage}, Path=FormsWindow.Pane2.Width}"
             ItemsSource="{Binding Source={x:Reference cv}, Path=ItemsSource}">
             <CollectionView.Resources>
