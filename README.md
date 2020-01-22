@@ -16,6 +16,8 @@ After you have an API key, put it in the following files:
 
  - DualView/Resources/Assets/googlemap.html
  - ExtendCanvas/Resources/Assets/googlemapsearch.html
+ - XamarinForms/Xamarin.Duo.Forms.Samples.Android/Assets/googlemap.html
+ - XamarinForms/Xamarin.Duo.Forms.Samples.Android/Assets/googlemapsearch.html
 
 By replacing `YOUR_API_KEY` string with your actual key
 
