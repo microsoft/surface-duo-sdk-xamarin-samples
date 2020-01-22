@@ -9,7 +9,7 @@
 	<ContentPage.Content>
 		<Grid>
 			<WebView x:Name="webView" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
-			<SearchBar x:Name="searchBar" Placeholder="Search..." HorizontalOptions="FillAndExpand" VerticalOptions="Start" />
+			<SearchBar x:Name="searchBar" Placeholder="Find a place..." BackgroundColor="DarkGray" Opacity="0.8" HorizontalOptions="FillAndExpand" VerticalOptions="Start" />
 		</Grid>
 	</ContentPage.Content>
 </local:DuoPage>

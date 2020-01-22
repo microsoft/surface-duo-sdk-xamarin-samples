@@ -19,17 +19,14 @@
 
     </style>
     <script>
-      var place;
+      var urlParams = new URLSearchParams(window.location.search);
+      var place = urlParams.get('place');
       var map;
       var service;
       var infowindow;
 
     function initMap() {
-        searchMap('');
-    }
 
-    function searchMap(thePlace) {
-        place = thePlace;
         var msftVisitorCenter = new google.maps.LatLng(47.642232, -122.1389797);
         infowindow = new google.maps.InfoWindow();
 
@@ -81,7 +78,7 @@
 </head>
 <body>
 <div id="map"></div>
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR-APIKEY&libraries=places&callback=initMap"
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initMap"
         async defer></script>
 </body>
 </html>

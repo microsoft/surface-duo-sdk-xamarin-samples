@@ -32,7 +32,7 @@ namespace Xamarin.Duo.Forms.Samples
         {
             var place = searchBar?.Text ?? string.Empty;
 
-            webView.EvaluateJavaScriptAsync("searchMap('" + place.Replace("\'", "") + "');");
+            webView.Source = "file:///android_asset/googlemapsearch.html?place=" + System.Web.HttpUtility.UrlEncode(place);
         }
     }
 }

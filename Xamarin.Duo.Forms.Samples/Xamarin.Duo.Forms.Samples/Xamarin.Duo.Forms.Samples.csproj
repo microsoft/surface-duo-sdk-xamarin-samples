@@ -17,6 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="DualView\DualViewListPage.xaml.cs">
+      <DependentUpon>DualViewListPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="MasterDetail\Master.xaml.cs">
       <DependentUpon>Master.xaml</DependentUpon>
     </Compile>
@@ -26,7 +29,13 @@
     <EmbeddedResource Update="CompanionPane\CompanionPane.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="DualView.xaml">
+    <EmbeddedResource Update="DualView\DualViewListPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DualView\DualViewMap.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DualView\DualViewMapPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="ExtendCanvas.xaml">

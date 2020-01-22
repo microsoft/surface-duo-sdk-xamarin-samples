@@ -29,7 +29,7 @@ namespace Xamarin.Duo.Forms.Samples
                     Navigation.PushAsync(new TwoPage());
                     break;
                 case "Dual View":
-                    Navigation.PushAsync(new DualView());
+                    Navigation.PushAsync(new DualViewListPage());
                     break;
                 case "Extend Canvas":
                     Navigation.PushAsync(new ExtendCanvas());

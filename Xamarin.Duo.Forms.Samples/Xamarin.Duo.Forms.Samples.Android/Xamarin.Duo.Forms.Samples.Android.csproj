@@ -104,5 +104,8 @@
   <ItemGroup>
     <AndroidAsset Include="Assets\googlemapsearch.html" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\googlemap.html" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
