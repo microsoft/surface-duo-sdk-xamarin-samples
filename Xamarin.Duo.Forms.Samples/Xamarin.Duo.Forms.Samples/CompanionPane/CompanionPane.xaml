@@ -8,8 +8,9 @@
              x:Name="mainPage"
              x:Class="Xamarin.Duo.Forms.Samples.CompanionPane"
              Visual="Material">
-    <local:TwoPaneView>
-        <CarouselView x:Name="cv" BackgroundColor="LightGray" PositionChanged="OnCarouselViewPositionChanged">
+    <local:TwoPaneView x:Name="twoPaneView">
+        <CarouselView x:Name="cv" BackgroundColor="LightGray" PositionChanged="OnCarouselViewPositionChanged" 
+                      HeightRequest="{Binding Source={x:Reference mainPage}, Path=FormsWindow.Pane1.Height}">
             <CarouselView.ItemTemplate>
                 <DataTemplate>
                     <Frame BackgroundColor="LightGray" Padding="0" Margin="0" 

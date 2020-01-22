@@ -24,6 +24,7 @@ namespace Xamarin.Duo.Forms.Samples
                     .Select(i => $"{i}")
                     .ToList();
 
+            twoPaneView.TallModeConfiguration = TwoPaneViewTallModeConfiguration.TopBottom;
             cv.ItemsSource = _dataSource;
 
             indicators.SelectedItem = _dataSource[0];
