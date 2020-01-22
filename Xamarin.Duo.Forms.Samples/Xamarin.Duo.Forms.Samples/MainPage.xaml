@@ -9,7 +9,7 @@
              x:Class="Xamarin.Duo.Forms.Samples.MainPage">
 
     <local:TwoPaneView x:Name="twoPaneView">
-        <StackLayout>
+        <StackLayout Padding="20">
             <Button Text="Companion Pane" Clicked="OnNavigateToSample"></Button>
             <Button Text="Dual View" Clicked="OnNavigateToSample"></Button>
             <Button Text="Extend Canvas" Clicked="OnNavigateToSample"></Button>
