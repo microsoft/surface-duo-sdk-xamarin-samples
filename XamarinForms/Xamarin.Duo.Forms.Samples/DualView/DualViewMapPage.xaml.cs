@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace Xamarin.Duo.Forms.Samples
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class DualViewMapPage : DuoPage
+	public partial class DualViewMapPage : ContentPage
 	{
 		public DualViewMapPage()
 		{

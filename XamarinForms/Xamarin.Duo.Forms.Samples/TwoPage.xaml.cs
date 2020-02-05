@@ -6,26 +6,44 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
+using Xamarin.Forms.DualScreen;
 using Xamarin.Forms.Xaml;
 
 namespace Xamarin.Duo.Forms.Samples
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class TwoPage : DuoPage
+    public partial class TwoPage : ContentPage
     {
         IItemsLayout linearLayout = null;
         IItemsLayout gridLayout = null;
         bool disableUpdates = false;
 
+        public DualScreenInfo DualScreenLayoutInfo { get; }
+        bool IsSpanned => DualScreenLayoutInfo.SpanningBounds.Length > 0;
+
         public TwoPage()
         {
             InitializeComponent();
+            DualScreenLayoutInfo = new DualScreenInfo(layout);
+
             cv.ItemsSource =
                 Enumerable.Range(0, 1000)
                     .Select(i => $"Page {i}")
                     .ToList();
+        }
 
-            FormsWindow.PropertyChanged += OnFormsWindowPropertyChanged;
+        protected override void OnAppearing()
+        {
+            DualScreenLayoutInfo.PropertyChanged += OnFormsWindowPropertyChanged;
+            DualScreenInfo.Current.PropertyChanged += OnFormsWindowPropertyChanged;
+            SetupColletionViewLayout();
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            DualScreenLayoutInfo.PropertyChanged -= OnFormsWindowPropertyChanged;
+            DualScreenInfo.Current.PropertyChanged -= OnFormsWindowPropertyChanged;
         }
 
         void OnFormsWindowPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -33,26 +51,31 @@ namespace Xamarin.Duo.Forms.Samples
             if (Content == null || disableUpdates)
                 return;
 
-            if(e.PropertyName == nameof(FormsWindow.IsLandscape) || e.PropertyName == nameof(FormsWindow.IsPortrait))
+            if(e.PropertyName == nameof(DualScreenInfo.Current.IsLandscape))
             {                
                 SetupColletionViewLayout();
             }
-            else if (e.PropertyName == nameof(FormsWindow.Pane2))
+            else if (e.PropertyName == nameof(DualScreenInfo.Current.SpanningBounds))
             {
                 OnPropertyChanged(nameof(ContentHeight));
                 OnPropertyChanged(nameof(ContentWidth));
             }
+            else if (e.PropertyName == nameof(DualScreenInfo.Current.HingeBounds))
+            {
+                OnPropertyChanged(nameof(HingeWidth));
+            }
         }
 
-        public double ContentHeight => (FormsWindow.IsPortrait) ? FormsWindow.Pane1.Height :  FormsWindow.Pane1.Height + FormsWindow.Pane2.Height;
+        public double ContentHeight => (!DualScreenLayoutInfo.IsLandscape) ? Pane1Height : Pane1Height + Pane2Height;
 
-        public double ContentWidth => (FormsWindow.Pane1.Width);
-        
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            SetupColletionViewLayout();
-        }
+        public double ContentWidth => IsSpanned ? (DualScreenLayoutInfo.SpanningBounds[0].Width) : layout.Width;
+
+        public double Pane1Height => IsSpanned ? (DualScreenLayoutInfo.SpanningBounds[0].Height) : layout.Height;
+
+        public double Pane2Height => IsSpanned ? (DualScreenLayoutInfo.SpanningBounds[1].Height) : 0d;
+
+        public double HingeWidth => DualScreenLayoutInfo?.HingeBounds.Width ?? DualScreenInfo.Current?.HingeBounds.Width ?? 0d;
+
 
         void SetupColletionViewLayout()
         {
@@ -68,7 +91,7 @@ namespace Xamarin.Duo.Forms.Samples
             if (gridLayout == null && cv.ItemsLayout is GridItemsLayout)
                 gridLayout = cv.ItemsLayout;
             
-            if (FormsWindow.IsLandscape)
+            if (DualScreenLayoutInfo.IsLandscape)
             {
                 if (cv.ItemsLayout != linearLayout)
                 {

@@ -5,19 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
+using Xamarin.Forms.DualScreen;
 using Xamarin.Forms.Xaml;
 
 namespace Xamarin.Duo.Forms.Samples
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class DualViewListPage : DuoPage
+    public partial class DualViewListPage 
     {
         DualViewMapPage mapPagePushed;
-
+        bool IsSpanned => DualScreenInfo.Current.SpanMode != TwoPaneViewMode.SinglePane;
         public DualViewListPage()
         {
             InitializeComponent();
-            FormsWindow.PropertyChanged += OnFormsWindowPropertyChanged;
             mapList.SelectionChanged += OnTitleSelected;
             mapPagePushed = new DualViewMapPage();
 
@@ -57,13 +57,13 @@ namespace Xamarin.Duo.Forms.Samples
 
         async Task SetupViews()
         {
-            if (FormsWindow.IsSpanned && FormsWindow.IsPortrait)
+            if (IsSpanned && !DualScreenInfo.Current.IsLandscape)
                 UpdateMapItem();
 
             if (SelectedItem == null)
                 return;
 
-            if (!FormsWindow.IsSpanned || FormsWindow.IsLandscape)
+            if (!IsSpanned || DualScreenInfo.Current.IsLandscape)
             {
                 if (!Navigation.NavigationStack.Contains(mapPagePushed))
                 {
@@ -75,13 +75,22 @@ namespace Xamarin.Duo.Forms.Samples
 
         protected override void OnAppearing()
         {
-            if (!FormsWindow.IsSpanned)
+            if (!IsSpanned)
                 mapList.SelectedItem = null;
+
+
+            DualScreenInfo.Current.PropertyChanged += OnFormsWindowPropertyChanged;
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            DualScreenInfo.Current.PropertyChanged -= OnFormsWindowPropertyChanged;
         }
 
         async void OnFormsWindowPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(FormsWindow.IsSpanned) || e.PropertyName == nameof(FormsWindow.IsPortrait))
+            if (e.PropertyName == nameof(DualScreenInfo.Current.SpanMode) || e.PropertyName == nameof(DualScreenInfo.Current.IsLandscape))
             {
                 await SetupViews();
             }

@@ -12,7 +12,7 @@ using Xamarin.Forms.Xaml;
 namespace Xamarin.Duo.Forms.Samples
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class CompanionPane : DuoPage
+    public partial class CompanionPane : ContentPage
     {
         List<string> _dataSource;
         public CompanionPane()
@@ -24,7 +24,7 @@ namespace Xamarin.Duo.Forms.Samples
                     .Select(i => $"{i}")
                     .ToList();
 
-            twoPaneView.TallModeConfiguration = TwoPaneViewTallModeConfiguration.TopBottom;
+            twoPaneView.TallModeConfiguration = Xamarin.Forms.DualScreen.TwoPaneViewTallModeConfiguration.TopBottom;
             cv.ItemsSource = _dataSource;
 
             indicators.SelectedItem = _dataSource[0];

@@ -6,6 +6,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Xamarin.Forms.DualScreen;
 
 namespace Xamarin.Duo.Forms.Samples.Droid
 {
@@ -15,7 +16,7 @@ namespace Xamarin.Duo.Forms.Samples.Droid
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            HingeService.MainActivity = this;
+            DualScreenService.Init(this);
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 

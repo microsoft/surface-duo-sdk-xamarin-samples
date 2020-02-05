@@ -5,13 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
+using Xamarin.Forms.DualScreen;
 using Xamarin.Forms.Xaml;
 
 namespace Xamarin.Duo.Forms.Samples
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class DetailsPage : DuoPage
+    public partial class DetailsPage
     {
+        bool IsSpanned => DualScreenInfo.Current.SpanMode != TwoPaneViewMode.SinglePane;
         public DetailsPage()
         {
             InitializeComponent();
@@ -20,20 +22,20 @@ namespace Xamarin.Duo.Forms.Samples
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            FormsWindow.PropertyChanged += OnFormsWindowPropertyChanged;
+            DualScreenInfo.Current.PropertyChanged += OnFormsWindowPropertyChanged;
         }
 
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            FormsWindow.PropertyChanged -= OnFormsWindowPropertyChanged;
+            DualScreenInfo.Current.PropertyChanged -= OnFormsWindowPropertyChanged;
         }
 
         async void OnFormsWindowPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if(e.PropertyName == nameof(FormsWindow.IsSpanned) || e.PropertyName == nameof(FormsWindow.IsPortrait))
+            if(e.PropertyName == nameof(DualScreenInfo.Current.SpanMode) || e.PropertyName == nameof(DualScreenInfo.Current.IsLandscape))
             {
-                if (FormsWindow.IsSpanned && FormsWindow.IsPortrait)
+                if (IsSpanned && !DualScreenInfo.Current.IsLandscape)
                     await Navigation.PopAsync();
             }
         }

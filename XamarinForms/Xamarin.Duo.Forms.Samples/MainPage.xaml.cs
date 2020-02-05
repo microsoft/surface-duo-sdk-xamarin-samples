@@ -16,7 +16,7 @@ namespace Xamarin.Duo.Forms.Samples
         public MainPage()
         {
             InitializeComponent();
-            twoPaneView.TallModeConfiguration = TwoPaneViewTallModeConfiguration.TopBottom;
+            twoPaneView.TallModeConfiguration = Xamarin.Forms.DualScreen.TwoPaneViewTallModeConfiguration.TopBottom;
         }
 
         void OnNavigateToSample(object sender, EventArgs e)
@@ -40,6 +40,10 @@ namespace Xamarin.Duo.Forms.Samples
                 case "Companion Pane":
                     Navigation.PushAsync(new CompanionPane());
                     break;
+                case "Two Two Pane":
+                    Navigation.PushAsync(new TwoTwoPaneView());
+                    break;
+
             }
         }
     }

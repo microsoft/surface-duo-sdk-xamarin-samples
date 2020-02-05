@@ -5,19 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
+using Xamarin.Forms.DualScreen;
 using Xamarin.Forms.Xaml;
 
 namespace Xamarin.Duo.Forms.Samples
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MasterDetail : DuoPage
+    public partial class MasterDetail
     {
+        bool IsSpanned => DualScreenInfo.Current.SpanMode != TwoPaneViewMode.SinglePane;
         DetailsPage detailsPagePushed;
 
         public MasterDetail()
         {
             InitializeComponent();
-            FormsWindow.PropertyChanged += OnFormsWindowPropertyChanged;
             masterPage.SelectionChanged += OnTitleSelected;
             detailsPagePushed = new DetailsPage();
         }
@@ -41,13 +42,13 @@ namespace Xamarin.Duo.Forms.Samples
 
         async void SetupViews()
         {
-            if (FormsWindow.IsSpanned && FormsWindow.IsPortrait)
+            if (IsSpanned && !DualScreenInfo.Current.IsLandscape)
                 SetBindingContext();
 
             if (detailsPage.BindingContext == null)
                 return;
 
-            if (!FormsWindow.IsSpanned || FormsWindow.IsLandscape)
+            if (!IsSpanned || DualScreenInfo.Current.IsLandscape)
             {
                 if (!Navigation.NavigationStack.Contains(detailsPagePushed))
                 {
@@ -59,13 +60,20 @@ namespace Xamarin.Duo.Forms.Samples
 
         protected override void OnAppearing()
         {
-            if (!FormsWindow.IsSpanned)
+            if (!IsSpanned)
                 masterPage.SelectedItem = null;
+            DualScreenInfo.Current.PropertyChanged += OnFormsWindowPropertyChanged;
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            DualScreenInfo.Current.PropertyChanged -= OnFormsWindowPropertyChanged;
         }
 
         void OnFormsWindowPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if(e.PropertyName == nameof(FormsWindow.IsSpanned) || e.PropertyName == nameof(FormsWindow.IsPortrait))
+            if (e.PropertyName == nameof(DualScreenInfo.Current.SpanMode) || e.PropertyName == nameof(DualScreenInfo.Current.IsLandscape))
             {
                 SetupViews();
             }
