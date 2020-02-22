@@ -1,0 +1,10 @@
+<!--
+  ~ Copyright (c) Microsoft Corporation. All rights reserved.
+  ~ Licensed under the MIT License.
+  -->
+<resources>
+    <string name="app_name">DragAndDrop</string>
+    <string name="plain_text">The perfect balance of productivity and mobility. Surface Duo is a new dual-screen device that fits in your pocket. With two screens connected by a revolutionary 360° hinge, Surface Duo brings together the best of Microsoft and Android to reimagine productivity on the go. Coming Holiday 2020.</string>
+    <string name="drag_image_here">Drag Image here</string>
+    <string name="drag_text_here">Drag text here</string>
+</resources>

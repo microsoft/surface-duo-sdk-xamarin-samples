@@ -1,0 +1,13 @@
+<!--
+  ~ Copyright (c) Microsoft Corporation. All rights reserved.
+  ~ Licensed under the MIT License.
+  -->
+<resources>
+    <string name="app_name">IntentSecondScreen</string>
+    <string name="web_link">https://www.microsoft.com</string>
+    <string name="map_link">https://maps.app.goo.gl/od6hh3onYGVi4A8w8</string>
+    <string name="link_access_tag">Go to microsoft.com</string>
+    <string name="button_text">Start Second Activity</string>
+    <string name="map_text">Navigate on Google Maps</string>
+    <string name="second_activity_text">Hello Second Screen"</string>
+</resources>

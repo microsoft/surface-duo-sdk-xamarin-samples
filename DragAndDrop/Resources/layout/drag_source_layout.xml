@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) Microsoft Corporation. All rights reserved.
+  ~ Licensed under the MIT License.
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:padding="3dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@android:color/transparent"
+        android:id="@+id/drag_source"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10">
+
+        <RelativeLayout
+            android:id="@+id/image_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:background="@color/light_gray"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5">
+
+            <ImageView
+                tools:ignore="ContentDescription"
+                android:gravity="center"
+                android:id="@+id/drag_image_view"
+                android:layout_width="180dp"
+                android:layout_height="160dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/surface_duo" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/text_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:background="@color/light_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5">
+
+            <TextView
+                android:id="@+id/drag_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/plain_text"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
