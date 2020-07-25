@@ -1,12 +1,22 @@
-# Surface Duo Xamarin Android Samples
+---
+page_type: sample
+title: Surface Duo - Xamarin samples
+name: Surface Duo - Xamarin samples
+languages:
+- kotlin
+products:
+- surface-duo
+- xamarin
+description: "Learn to develop dual-screen apps for Surface Duo with Xamarin and Xamarin.Forms."
+keywords: dual-screen, surface duo, xamarin, xamarin.forms
+---
+# Surface Duo - Xamarin samples
 
-## Introduction
+This repo contains Xamarin and Xamarin.Forms Android samples for Surface Duo.
 
-This repo contains Xamarin Android samples for Surface Duo
+## Get Started
 
-## Getting Started
-
-To learn how to load your app on to emulator, and to use it ,see the full documentation here: https://docs.microsoft.com/dual-screen
+To learn how to load your app on to emulator, and to use it, refer to the [documentation](https://docs.microsoft.com/dual-screen).
 
 ## Build and Test
 
@@ -14,12 +24,12 @@ To use the DualView and ExtendCanvas samples, you will first need to create an G
 
 After you have an API key, put it in the following files:
 
- - DualView/Resources/Assets/googlemap.html
- - ExtendCanvas/Resources/Assets/googlemapsearch.html
- - XamarinForms/Xamarin.Duo.Forms.Samples.Android/Assets/googlemap.html
- - XamarinForms/Xamarin.Duo.Forms.Samples.Android/Assets/googlemapsearch.html
+- DualView/Resources/Assets/googlemap.html
+- ExtendCanvas/Resources/Assets/googlemapsearch.html
+- XamarinForms/Xamarin.Duo.Forms.Samples.Android/Assets/googlemap.html
+- XamarinForms/Xamarin.Duo.Forms.Samples.Android/Assets/googlemapsearch.html
 
-By replacing `YOUR_API_KEY` string with your actual key
+By replacing `YOUR_API_KEY` string with your actual key the map views will be displayed.
 
 ## Contributing
 
