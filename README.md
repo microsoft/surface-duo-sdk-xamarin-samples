@@ -1,6 +1,5 @@
 ---
 page_type: sample
-title: Surface Duo - Xamarin samples
 name: Surface Duo - Xamarin samples
 languages:
 - kotlin
