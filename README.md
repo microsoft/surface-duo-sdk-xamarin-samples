@@ -7,7 +7,6 @@ products:
 - surface-duo
 - xamarin
 description: "Learn to develop dual-screen apps for Surface Duo with Xamarin and Xamarin.Forms."
-keywords: dual-screen, surface duo, xamarin, xamarin.forms
 urlFragment: all
 ---
 # Surface Duo - Xamarin samples
