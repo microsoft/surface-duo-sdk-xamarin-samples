@@ -2,7 +2,7 @@
 page_type: sample
 name: Surface Duo - Xamarin samples
 languages:
-- kotlin
+- csharp
 products:
 - surface-duo
 - xamarin
@@ -15,7 +15,7 @@ This repo contains Xamarin and Xamarin.Forms Android samples for Surface Duo.
 
 ## Get Started
 
-To learn how to load your app on to emulator, and to use it, refer to the [documentation](https://docs.microsoft.com/dual-screen).
+To learn how to load your app on to emulator, and to use it, refer to the [Surface Duo docs](https://docs.microsoft.com/dual-screen) and [Xamarin.Forms dual-screen docs](https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/dual-screen/).
 
 ## Build and Test
 
