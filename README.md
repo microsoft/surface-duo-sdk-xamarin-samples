@@ -39,6 +39,7 @@ The TwoPaneView playground lets you experiment with the different layout options
 3. Choose one of the projects listed as the startup project (eg. Companion Pane, DragAndDrop, DualView, ExtendCanvas, IntentToSecondScreen, MasterDetail, TwoPage)
 4. Start the Surface Duo emulator - once it has started it will appear in the Visual Studio device list
 5. Run the project
+6. Change the startup project to try each sample
 
 ### API keys
 
