@@ -15,7 +15,7 @@ This repo contains Xamarin and Xamarin.Forms Android samples for Surface Duo, al
 
 ## Get Started
 
-To learn how to load your app on to emulator, and to use it, refer to the [Surface Duo developer docs](https://docs.microsoft.com/dual-screen) and [Xamarin.Forms dual-screen docs](https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/dual-screen/).
+To learn how to load your app on to emulator, and to use it, refer to the [Surface Duo developer docs](https://docs.microsoft.com/dual-screen/xamarin) and [Xamarin.Forms dual-screen docs](https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/dual-screen/).
 
 ## Build and Test
 
@@ -26,11 +26,11 @@ To learn how to load your app on to emulator, and to use it, refer to the [Surfa
 3. Start the Surface Duo emulator - once it has started it will appear in the Visual Studio device list
 4. Run the project, and you will see a menu of different examples to try:
 
-  ![Menu of Xamarin.Forms dual-screen demos](Screenshots/xamarin-forms-menu.png)
+    ![Menu of Xamarin.Forms dual-screen demos](Screenshots/xamarin-forms-menu.png)
 
-The TwoPaneView playground lets you experiment with the different layout options it supports:
+The TwoPaneView playground lets you experiment with the different layout options it supports. Read the [TwoPaneView docs](https://docs.microsoft.com/dual-screen/xamarin/twopaneview) for details on how to control the layout.
 
-  ![Menu of Xamarin.Forms TwoPaneView control playground](Screenshots/xamarin-forms-twopaneview.png)
+![Menu of Xamarin.Forms TwoPaneView control playground](Screenshots/xamarin-forms-twopaneview.png)
 
 ### Xamarin.Android
 
