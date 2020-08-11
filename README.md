@@ -1,25 +1,48 @@
 ---
 page_type: sample
-name: Surface Duo - Xamarin samples
+name: Surface Duo - Xamarin SDK samples
 languages:
 - csharp
 products:
 - surface-duo
 - xamarin
-description: "Learn to develop dual-screen apps for Surface Duo with Xamarin and Xamarin.Forms."
+description: "Samples showing how to use the Surface Duo SDK to achieve dual-screen user interface patterns using Xamarin and Xamarin.Forms."
 urlFragment: all
 ---
-# Surface Duo - Xamarin samples
+# Surface Duo - Xamarin SDK samples
 
-This repo contains Xamarin and Xamarin.Forms Android samples for Surface Duo.
+This repo contains Xamarin and Xamarin.Forms Android samples for Surface Duo, all accessible from a single Visual Studio solution.
 
 ## Get Started
 
-To learn how to load your app on to emulator, and to use it, refer to the [Surface Duo docs](https://docs.microsoft.com/dual-screen) and [Xamarin.Forms dual-screen docs](https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/dual-screen/).
+To learn how to load your app on to emulator, and to use it, refer to the [Surface Duo developer docs](https://docs.microsoft.com/dual-screen) and [Xamarin.Forms dual-screen docs](https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/dual-screen/).
 
 ## Build and Test
 
-To use the DualView and ExtendCanvas samples, you will first need to create an Google Map API key. Follow the instructions outlined [here](https://developers.google.com/maps/documentation/javascript/get-api-key) to create an API key.
+### Xamarin.Forms
+
+1. Open the **Xamarin.Duo.Samples** solution
+2. Expand the **Xamarin.Forms** folder and ensure the **DualScreenDemos.Android** project is the startup project
+3. Start the Surface Duo emulator - once it has started it will appear in the Visual Studio device list
+4. Run the project, and you will see a menu of different examples to try:
+
+  ![Menu of Xamarin.Forms dual-screen demos](Screenshots/xamarin-forms-menu.png)
+
+The TwoPaneView playground lets you experiment with the different layout options it supports:
+
+  ![Menu of Xamarin.Forms TwoPaneView control playground](Screenshots/xamarin-forms-twopaneview.png)
+
+### Xamarin.Android
+
+1. Open the **Xamarin.Duo.Samples** solution
+2. Expand the **Xamarin.Android native** folder 
+3. Choose one of the projects listed as the startup project (eg. Companion Pane, DragAndDrop, DualView, ExtendCanvas, IntentToSecondScreen, MasterDetail, TwoPage)
+4. Start the Surface Duo emulator - once it has started it will appear in the Visual Studio device list
+5. Run the project
+
+### API keys
+
+To use the **DualView** and **ExtendCanvas** samples, you will first need to create an Google Map API key. Follow the instructions outlined [here](https://developers.google.com/maps/documentation/javascript/get-api-key) to create an API key.
 
 After you have an API key, put it in the following files:
 
