@@ -11,7 +11,7 @@ using Android.Widget;
 using AndroidX.AppCompat.App;
 using AndroidX.Fragment.App;
 
-namespace MasterDetail.Fragments
+namespace ListDetail.Fragments
 {
 	public class SinglePortrait : BaseFragment, ItemsListFragment.IOnItemSelectedListener
 	{
@@ -60,12 +60,12 @@ namespace MasterDetail.Fragments
 		{
 
 			var fragmentTransaction = ChildFragmentManager.BeginTransaction();
-			var showFragment = ChildFragmentManager.FindFragmentById(Resource.Id.master_single);
+			var showFragment = ChildFragmentManager.FindFragmentById(Resource.Id.list_single);
 
 			if (showFragment == null)
-				fragmentTransaction.Add(Resource.Id.master_single, fragment);
+				fragmentTransaction.Add(Resource.Id.list_single, fragment);
 			else
-				fragmentTransaction.Hide(showFragment).Add(Resource.Id.master_single, fragment);
+				fragmentTransaction.Hide(showFragment).Add(Resource.Id.list_single, fragment);
 
 			fragmentTransaction.AddToBackStack(fragment.Class.Name);
 			fragmentTransaction.Commit();
@@ -103,7 +103,7 @@ namespace MasterDetail.Fragments
 				ChildFragmentManager.PopBackStack();
 				ChildFragmentManager.ExecutePendingTransactions();
 				// Do not show back on the actionbar when current fragment is ItemsListFragment
-				var showFragment = ChildFragmentManager.FindFragmentById(Resource.Id.master_single);
+				var showFragment = ChildFragmentManager.FindFragmentById(Resource.Id.list_single);
 
 				try
 				{

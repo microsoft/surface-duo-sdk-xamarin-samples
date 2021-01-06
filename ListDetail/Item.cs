@@ -12,7 +12,7 @@ using Android.Views;
 using Android.Widget;
 using Java.IO;
 
-namespace MasterDetail
+namespace ListDetail
 {
 	public class Item
 	{

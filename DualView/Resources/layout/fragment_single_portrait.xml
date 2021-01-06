@@ -10,7 +10,7 @@
     android:baselineAligned="false">
 
     <FrameLayout
-        android:id="@+id/master_single"
+        android:id="@+id/list_single"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="10" />

@@ -4,10 +4,10 @@ using System.Text;
 
 namespace DualScreenDemos
 {
-    public class MasterDetailsItem
+    public class ListDetailsItem
     {
 
-        public MasterDetailsItem(int x)
+        public ListDetailsItem(int x)
         {
             Title = $"Item {x}";
             Details = $"This is item {x}";

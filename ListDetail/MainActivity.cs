@@ -6,10 +6,10 @@ using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
 using AndroidX.Fragment.App;
-using MasterDetail.Fragments;
+using ListDetail.Fragments;
 using Microsoft.Device.Display;
 
-namespace MasterDetail
+namespace ListDetail
 {
 	[Android.App.Activity(
 		Icon = "@mipmap/ic_launcher",
@@ -74,7 +74,10 @@ namespace MasterDetail
 		public override void OnConfigurationChanged(Configuration newConfig)
 		{
 			base.OnConfigurationChanged(newConfig);
-			screenHelper.OnConfigurationChanged(newConfig);
+
+			if (ScreenHelper.IsDualScreenDevice(this))
+				screenHelper.Update();
+
 			SetupLayout();
 		}
 

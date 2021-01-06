@@ -10,7 +10,7 @@ using Android.Views;
 using Android.Widget;
 using AndroidX.Fragment.App;
 
-namespace MasterDetail.Fragments
+namespace ListDetail.Fragments
 {
 	public class ItemsListFragment : Fragment, ListView.IOnItemClickListener
 	{

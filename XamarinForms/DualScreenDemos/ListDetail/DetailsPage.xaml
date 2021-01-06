@@ -6,6 +6,6 @@
              xmlns:local="clr-namespace:DualScreenDemos"
              mc:Ignorable="d"
              x:Class="DualScreenDemos.DetailsPage"
-             Title="Master Details">
+             Title="List Details">
     <local:Details></local:Details>
 </ContentPage>

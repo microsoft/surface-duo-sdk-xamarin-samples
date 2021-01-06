@@ -11,7 +11,7 @@ using Android.Widget;
 using AndroidX.Fragment.App;
 using Newtonsoft.Json;
 
-namespace MasterDetail.Fragments
+namespace ListDetail.Fragments
 {
 	public class ItemDetailFragment : Fragment
 	{

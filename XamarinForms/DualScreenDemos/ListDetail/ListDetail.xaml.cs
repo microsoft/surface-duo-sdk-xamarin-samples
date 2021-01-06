@@ -11,15 +11,15 @@ using Xamarin.Forms.Xaml;
 namespace DualScreenDemos
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MasterDetail
+    public partial class ListDetail
     {
         bool IsSpanned => DualScreenInfo.Current.SpanMode != TwoPaneViewMode.SinglePane;
         DetailsPage detailsPagePushed;
 
-        public MasterDetail()
+        public ListDetail()
         {
             InitializeComponent();
-            masterPage.SelectionChanged += OnTitleSelected;
+            listPage.SelectionChanged += OnTitleSelected;
             detailsPagePushed = new DetailsPage();
         }
 
@@ -35,7 +35,7 @@ namespace DualScreenDemos
 
         void SetBindingContext()
         {
-            var bindingContext = masterPage.SelectedItem ?? (masterPage.ItemsSource as IList<MasterDetailsItem>)[0];
+            var bindingContext = listPage.SelectedItem ?? (listPage.ItemsSource as IList<ListDetailsItem>)[0];
             detailsPagePushed.BindingContext = bindingContext;
             detailsPage.BindingContext = bindingContext;
         }
@@ -61,7 +61,7 @@ namespace DualScreenDemos
         protected override void OnAppearing()
         {
             if (!IsSpanned)
-                masterPage.SelectedItem = null;
+                listPage.SelectedItem = null;
             DualScreenInfo.Current.PropertyChanged += OnFormsWindowPropertyChanged;
         }
 
