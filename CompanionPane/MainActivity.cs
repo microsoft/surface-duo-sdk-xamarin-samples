@@ -72,6 +72,7 @@ namespace CompanionPane
 		public override void OnConfigurationChanged(Configuration newConfig)
 		{
 			base.OnConfigurationChanged(newConfig);
+			screenHelper.OnConfigurationChanged(newConfig);
 			SetupLayout();
 		}
 
