@@ -8,3 +8,4 @@ Read about the [List Detail user experience](https://docs.microsoft.com/dual-scr
 
 - [Introduction to dual-screen devices](https://docs.microsoft.com/dual-screen/introduction)
 - [Get the Surface Duo emulator](https://docs.microsoft.com/dual-screen/android/emulator/)
+- [Xamarin.Android documentation](https://docs.microsoft.com/xamarin/android/)
