@@ -1,4 +1,4 @@
-# TwoPage sample for Surface Duo
+# TwoPage sample for Surface Duo with Xamarin.Android
 
 Read about the [Two Page user experience](https://docs.microsoft.com/dual-screen/introduction#two-page) and visit the [docs page](https://docs.microsoft.com/dual-screen/android/sample-code/two-page) for more information.
 
