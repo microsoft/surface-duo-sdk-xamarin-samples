@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using ADragFlags = Android.Views.DragFlags;
 
 using Fragment = AndroidX.Fragment.App.Fragment;
 
@@ -27,8 +28,8 @@ namespace DragAndDrop
             var dragTextView = view.FindViewById<TextView>(Resource.Id.drag_text_view);
             var dragImageView = view.FindViewById<ImageView>(Resource.Id.drag_image_view);
 
-            dragTextView.Tag = new Java.Lang.String("text_view");
-            dragImageView.Tag = new Java.Lang.String("image_view");
+            dragTextView.Tag = new Java.Lang.String("Text");
+            dragImageView.Tag = new Java.Lang.String("Image");
 
             dragTextView.SetOnLongClickListener(this);
             dragImageView.SetOnLongClickListener(this);
@@ -40,17 +41,24 @@ namespace DragAndDrop
         {
             var item = new ClipData.Item(v.Tag.JavaCast<Java.Lang.String>());
             var mimeTypes = new String[1];
+            ClipData data = null;
 
             if (v is ImageView) {
+                // image item only drags WITHIN THE APP 
                 mimeTypes[0] = "image/jpeg";
+                data = new ClipData(v.Tag.JavaCast<Java.Lang.String>().ToString(), mimeTypes, item);
+                // TODO: allow image to drag to other apps
             } else if (v is TextView) {
-                mimeTypes[0] = ClipDescription.MimetypeTextPlain;
+                // use plain text, can drag outside the app
+                data = ClipData.NewPlainText(
+                    new Java.Lang.String(v.Tag.ToString()),
+                    new Java.Lang.String((v as TextView).Text)
+                    );
             }
 
-            var data = new ClipData(v.Tag.JavaCast<Java.Lang.String>().ToString(), mimeTypes, item);
-            
             var dragShadowBuilder = new View.DragShadowBuilder(v);
-            v.StartDragAndDrop(data, dragShadowBuilder, v, 0);
+            // flags required to drag to other apps
+            v.StartDragAndDrop(data, dragShadowBuilder, v, (int)ADragFlags.Global | (int)ADragFlags.GlobalUriRead | (int)ADragFlags.GlobalUriWrite);
             
             return true;
         }
