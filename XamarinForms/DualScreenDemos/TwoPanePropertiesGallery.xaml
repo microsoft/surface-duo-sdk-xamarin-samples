@@ -32,7 +32,6 @@
                     </Picker>
                     <Label Text="Hinge Angle (only works on Android):"></Label>
                     <twoPaneGallery:HingeAngleLabel />
-                    <Label Text="Hinge Angle is controlled via the pressure sensor on the simulator."></Label>
                 </StackLayout>
             </local:TwoPaneView.Pane1>
             <local:TwoPaneView.Pane2>
