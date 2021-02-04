@@ -35,7 +35,7 @@ namespace DualView.Fragments
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			var view = inflater.Inflate(Resource.Layout.fragment_dual_portrail, container, false);
-			ShowFragment(itemListFragment, Resource.Id.master_dual);
+			ShowFragment(itemListFragment, Resource.Id.list_dual);
 			return view;
 		}
 
@@ -67,7 +67,7 @@ namespace DualView.Fragments
 				listener.OnItemSelected(position);
 			currentSelectedPosition = position;
 			// Showing ItemDetailFragment on the right screen when the app is in spanned mode
-			ShowFragment(ItemDetailFragment.NewInstance(item), Resource.Id.master_detail);
+			ShowFragment(ItemDetailFragment.NewInstance(item), Resource.Id.list_detail);
 		}
 
 		void ShowBackOnActionBar()

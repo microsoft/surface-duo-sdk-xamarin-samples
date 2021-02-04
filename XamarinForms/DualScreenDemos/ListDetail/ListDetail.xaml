@@ -7,10 +7,10 @@
     xmlns:dualScreen="clr-namespace:Xamarin.Forms.DualScreen;assembly=Xamarin.Forms.DualScreen"
     xmlns:local="clr-namespace:DualScreenDemos"
     mc:Ignorable="d"
-             x:Class="DualScreenDemos.MasterDetail">
+             x:Class="DualScreenDemos.ListDetail">
     <dualScreen:TwoPaneView MinWideModeWidth="4000" MinTallModeHeight="4000">
         <dualScreen:TwoPaneView.Pane1>
-            <local:Master x:Name="masterPage"></local:Master>
+            <local:List x:Name="listPage"></local:List>
         </dualScreen:TwoPaneView.Pane1>
         <dualScreen:TwoPaneView.Pane2>
             <local:Details x:Name="detailsPage"></local:Details>

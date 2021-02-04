@@ -11,7 +11,7 @@ using Android.Widget;
 using AndroidX.AppCompat.App;
 using AndroidX.Fragment.App;
 
-namespace MasterDetail.Fragments
+namespace ListDetail.Fragments
 {
 	public class DualPortrait : BaseFragment, ItemsListFragment.IOnItemSelectedListener
 	{
@@ -37,7 +37,7 @@ namespace MasterDetail.Fragments
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			var view = inflater.Inflate(Resource.Layout.fragment_items_dual_portrait, container, false);
-			ShowFragment(itemListFragment, Resource.Id.master_dual);
+			ShowFragment(itemListFragment, Resource.Id.list_dual);
 			return view;
 		}
 
@@ -67,7 +67,7 @@ namespace MasterDetail.Fragments
 		{
 			currentSelectedPosition = position;
 			// Showing ItemDetailFragment on the right screen when the app is in spanned mode
-			ShowFragment(ItemDetailFragment.NewInstance(item), Resource.Id.master_detail);
+			ShowFragment(ItemDetailFragment.NewInstance(item), Resource.Id.list_detail);
 		}
 
 		void ShowBackOnActionBar()

@@ -4,7 +4,7 @@
   -->
 
 <resources>
-    <string name="app_name">Master Detail</string>
+    <string name="app_name">List Detail</string>
     <string name="rating">Rating:</string>
     <string name="details">Details:</string>
     <string name="title">Title:</string>
