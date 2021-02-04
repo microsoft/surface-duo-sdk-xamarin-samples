@@ -10,13 +10,13 @@ using Xamarin.Forms.Xaml;
 namespace DualScreenDemos
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Master : CollectionView
+    public partial class List : CollectionView
     {
-        public Master()
+        public List()
         {
             InitializeComponent();
             ItemsSource = Enumerable.Range(1, 100)
-                .Select(x => new MasterDetailsItem(x))
+                .Select(x => new ListDetailsItem(x))
                 .ToList();
         }
     }

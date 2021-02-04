@@ -11,7 +11,7 @@
     tools:context=".MainActivity">
 
     <FrameLayout
-        android:id="@+id/master_dual"
+        android:id="@+id/list_dual"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="8.2" />
@@ -23,7 +23,7 @@
         android:layout_weight="1" />
 
     <FrameLayout
-        android:id="@+id/master_detail"
+        android:id="@+id/list_detail"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="10"/>

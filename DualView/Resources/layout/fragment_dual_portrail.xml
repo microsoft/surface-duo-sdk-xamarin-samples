@@ -10,7 +10,7 @@
     android:baselineAligned="false">
 
     <FrameLayout
-        android:id="@+id/master_dual"
+        android:id="@+id/list_dual"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="10" />
@@ -22,7 +22,7 @@
         android:layout_weight="0.6" />
 
     <FrameLayout
-        android:id="@+id/master_detail"
+        android:id="@+id/list_detail"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="10" />

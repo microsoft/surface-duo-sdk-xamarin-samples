@@ -34,12 +34,21 @@ namespace DualScreenDemos
 
 		protected override void OnAppearing()
 		{
-			base.OnAppearing();
-			Setup(Width, Height);
-
 			PanePriority.SelectedIndex = 0;
 			TallModeConfiguration.SelectedIndex = 1;
 			WideModeConfiguration.SelectedIndex = 1;
+
+			DualScreenInfo.Current.HingeAngleChanged += OnHingeAngleChanged;
+		}
+
+		protected override void OnDisappearing()
+		{
+			DualScreenInfo.Current.HingeAngleChanged -= OnHingeAngleChanged;
+		}
+
+		void OnHingeAngleChanged(object sender, HingeAngleChangedEventArgs e)
+		{
+			lblHingeAngle.Text = e.HingeAngleInDegrees.ToString();
 		}
 
 		void Setup(double width, double height)
@@ -47,9 +56,7 @@ namespace DualScreenDemos
 			if (width <= 0 || height <= 0)
 				return;
 
-
-			MinTallModeHeight.Maximum = height;
-			MinWideModeWidth.Maximum = width;
+			lblScreenDim.Text = $"Screen Dimensions: {width}x{height}";
 		}
 
 		protected override void OnSizeAllocated(double width, double height)

@@ -34,8 +34,8 @@ namespace DualScreenDemos
                 case "Extend Canvas":
                     Navigation.PushAsync(new ExtendCanvas());
                     break;
-                case "Master Detail":
-                    Navigation.PushAsync(new MasterDetail());
+                case "List Detail":
+                    Navigation.PushAsync(new ListDetail());
                     break;
                 case "Companion Pane":
                     Navigation.PushAsync(new CompanionPane());
@@ -46,11 +46,14 @@ namespace DualScreenDemos
                 case "Nested TwoPaneView Split Across Hinge":
                     Navigation.PushAsync(new NestedTwoPaneViewSplitAcrossHinge());
                     break;
-                case "Open Picture in Picture Window":
-                    Navigation.PushAsync(new OpenCompactWindow());
-                    break;
                 case "DualScreenInfo with non TwoPaneView":
                     Navigation.PushAsync(new GridUsingDualScreenInfo());
+                    break;
+                case "Drag And Drop":
+                    Navigation.PushAsync(new DragAndDrop());
+                    break;
+                case "Dual Screen Info":
+                    Navigation.PushAsync(new DualScreenInfoGallery());
                     break;
 
             }
