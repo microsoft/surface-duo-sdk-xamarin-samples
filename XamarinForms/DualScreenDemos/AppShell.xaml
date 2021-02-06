@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Shell xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:DualScreenDemos"
+       x:Class="DualScreenDemos.AppShell">
+    <local:ListDetail Title="List Detail"></local:ListDetail>
+    <local:TwoPage Title="Two Page"></local:TwoPage>
+    <local:DualViewListPage Title="Dual View"></local:DualViewListPage>
+    <local:ExtendCanvas Title="Extend Canvas"></local:ExtendCanvas>
+    <local:CompanionPane Title="Companion Pane"></local:CompanionPane>
+    <local:TwoPanePropertiesGallery Title="TwoPaneView Playground"></local:TwoPanePropertiesGallery>
+    <local:NestedTwoPaneViewSplitAcrossHinge Title="Nested TwoPaneView Split Across Hinge"></local:NestedTwoPaneViewSplitAcrossHinge>
+    <local:GridUsingDualScreenInfo Title="DualScreenInfo with non TwoPaneView"></local:GridUsingDualScreenInfo>
+    <local:DragAndDrop Title="Drag And Drop"></local:DragAndDrop>
+    <local:DualScreenInfoGallery Title="Dual Screen Info"></local:DualScreenInfoGallery>
+
+    <Shell.FlyoutHeaderTemplate>
+        <DataTemplate>
+            <StackLayout>
+                <Label Text="Drag this Image to a Browser"></Label>
+                <Image Source="surface_duo">
+                    <Image.GestureRecognizers>
+                        <DragGestureRecognizer DragStarting="DuoImageDragStarting"></DragGestureRecognizer>
+                    </Image.GestureRecognizers>
+                </Image>
+            </StackLayout>
+        </DataTemplate>
+    </Shell.FlyoutHeaderTemplate>
+</Shell>
