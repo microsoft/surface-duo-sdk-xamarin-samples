@@ -10,7 +10,7 @@ namespace DualScreenDemos
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new MainPage());
+            MainPage = new AppShell();
         }
 
         protected override void OnStart()
