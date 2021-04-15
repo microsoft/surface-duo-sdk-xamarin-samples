@@ -5,8 +5,19 @@ using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
 using AndroidX.ViewPager.Widget;
-using Microsoft.Device.Display;
+//using Microsoft.Device.Display; HACK: WM alpha
+using AndroidX.Window;
+using AndroidX.Window.Extensions;
+/*
+15-Apr-21
 
+This is a terrible hack that just aims to get the basics of Window Manager working
+
+It doesn't properly handle rotation - just single-portrait/dual-portrait 
+
+TODO: Update to androidx.window-1.0.0-alpha05
+
+ */
 namespace TwoPage
 {
 	[Android.App.Activity(
@@ -20,11 +31,13 @@ namespace TwoPage
 	{
 		ViewPager viewPager;
 		PagerAdapter pagerAdapter;
-		ScreenHelper screenHelper;
+		//ScreenHelper screenHelper;
 		int position = 0;
-		bool isDuo;
+		bool isDuo, isDualMode;
 		View single;
 		View dual;
+
+		WindowManager wm; // HACK: alpha WM
 
 		public bool ShowTwoPages { get; set; } = false;
 
@@ -33,14 +46,21 @@ namespace TwoPage
 			base.OnCreate(savedInstanceState);
 			var fragments = TestFragment.Fragments;
 			pagerAdapter = new PagerAdapter(SupportFragmentManager, fragments);
-			screenHelper = new ScreenHelper();
-			isDuo = screenHelper.Initialize(this);
+			//screenHelper = new ScreenHelper(); // HACK: alpha WM
+			//isDuo = screenHelper.Initialize(this); // HACK: alpha WM
+			wm = new WindowManager(this, null); // HACK: alpha WM
+			
 			single = LayoutInflater.Inflate(Resource.Layout.activity_main, null);
 			dual = LayoutInflater.Inflate(Resource.Layout.double_landscape_layout, null);
 			SetupLayout();
 		}
 
-		void UseSingleMode()
+        public override void OnAttachedToWindow()
+        {
+            base.OnAttachedToWindow();
+			var li = wm.WindowLayoutInfo;
+        }
+        void UseSingleMode()
 		{
 			//Setting layout for single portrait
 			SetContentView(single);
@@ -69,10 +89,10 @@ namespace TwoPage
 
 		void SetupLayout()
 		{
-			var rotation = ScreenHelper.GetRotation(this);
+			var rotation = Android.Views.SurfaceOrientation.Rotation0; //HACK: alpha WM ScreenHelper.GetRotation(this);
 			if (isDuo)
 			{
-				if (screenHelper.IsDualMode)
+				if (isDualMode)  // HACK: alpha WM (screenHelper.IsDualMode)
 					UseDualMode(rotation);
 				else
 					UseSingleMode();
@@ -87,8 +107,21 @@ namespace TwoPage
 		{
 			base.OnConfigurationChanged(newConfig);
 
-			if (ScreenHelper.IsDualScreenDevice(this))
-				screenHelper.Update();
+			// HACK: alpha WM
+			//			if (ScreenHelper.IsDualScreenDevice(this))
+			//				screenHelper.Update();
+
+			var li = wm.WindowLayoutInfo; // HACK: alpha WM
+			if (li.DisplayFeatures.Count > 0) // HACK: alpha WM
+			{
+				isDuo = true;
+				isDualMode = true;
+				var hinge = li.DisplayFeatures[0].Bounds; // just for debugging, shows "Rect(1350,0 - 1434,1800)"
+			}
+			else
+			{
+				isDualMode = false;
+			}
 
 			SetupLayout();
 		}
