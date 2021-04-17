@@ -48,8 +48,10 @@ namespace TwoPage
 			pagerAdapter = new PagerAdapter(SupportFragmentManager, fragments);
 			//screenHelper = new ScreenHelper(); // HACK: alpha WM
 			//isDuo = screenHelper.Initialize(this); // HACK: alpha WM
-			wm = new WindowManager(this, null); // HACK: alpha WM
+			wm = new WindowManager(this); // HACK: alpha WM
 			
+			
+
 			single = LayoutInflater.Inflate(Resource.Layout.activity_main, null);
 			dual = LayoutInflater.Inflate(Resource.Layout.double_landscape_layout, null);
 			SetupLayout();
@@ -58,7 +60,7 @@ namespace TwoPage
         public override void OnAttachedToWindow()
         {
             base.OnAttachedToWindow();
-			var li = wm.WindowLayoutInfo;
+			var li = wm.CurrentWindowMetrics;
         }
         void UseSingleMode()
 		{
@@ -111,12 +113,12 @@ namespace TwoPage
 			//			if (ScreenHelper.IsDualScreenDevice(this))
 			//				screenHelper.Update();
 
-			var li = wm.WindowLayoutInfo; // HACK: alpha WM
-			if (li.DisplayFeatures.Count > 0) // HACK: alpha WM
+			var li = wm.CurrentWindowMetrics; // HACK: alpha WM
+			if (li.Bounds.Width() > 1700) // HACK: alpha WM
 			{
 				isDuo = true;
 				isDualMode = true;
-				var hinge = li.DisplayFeatures[0].Bounds; // just for debugging, shows "Rect(1350,0 - 1434,1800)"
+				//var hinge = li.DisplayFeatures[0].Bounds; // just for debugging, shows "Rect(1350,0 - 1434,1800)"
 			}
 			else
 			{
