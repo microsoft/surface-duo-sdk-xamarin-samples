@@ -5,8 +5,12 @@ using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
 using DualView.Fragments;
-using Microsoft.Device.Display;
 using System.Collections.Generic;
+using AndroidX.Window;
+using AndroidX.Core.Util;
+using Java.Util.Concurrent;
+using Java.Lang;
+using Android.Util;
 
 namespace DualView
 {
@@ -16,12 +20,15 @@ namespace DualView
 		RoundIcon = "@mipmap/ic_launcher_round",
 		Theme = "@style/AppTheme",
 		MainLauncher = true,
-		ConfigurationChanges = Android.Content.PM.ConfigChanges.ScreenSize | Android.Content.PM.ConfigChanges.ScreenLayout | Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.SmallestScreenSize)]
+		ConfigurationChanges = Android.Content.PM.ConfigChanges.ScreenSize | Android.Content.PM.ConfigChanges.ScreenLayout | Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.SmallestScreenSize | Android.Content.PM.ConfigChanges.UiMode)]
 
-	public class MainActivity : AppCompatActivity, BaseFragment.IOnItemSelectedListener
+	public class MainActivity : AppCompatActivity, BaseFragment.IOnItemSelectedListener, IConsumer
 	{
-		ScreenHelper screenHelper;
-		bool isDuo;
+		const string TAG = "JWM"; // Jetpack Window Manager
+		WindowManager wm;
+		int hingeOrientation = FoldingFeature.OrientationVertical;
+		bool isDuo, isDualMode;
+
 		Dictionary<string, BaseFragment> fragmentMap;
 		int currentSelectedPosition = -1;
 
@@ -32,8 +39,6 @@ namespace DualView
 		{
 			base.OnCreate(savedInstanceState);
 			SetContentView(Resource.Layout.activity_main);
-			screenHelper = new ScreenHelper();
-			isDuo = screenHelper.Initialize(this);
 			var items = Item.Items;
 			fragmentMap = new Dictionary<string, BaseFragment>();
 
@@ -49,7 +54,64 @@ namespace DualView
 			dualLandscape.RegisterOnItemSelectedListener(this);
 			fragmentMap[GetSimpleName<DualLandscape>()] = dualLandscape;
 
+			wm = new WindowManager(this);
+
 			SetupLayout();
+		}
+
+		IExecutor runOnUiThreadExecutor()
+		{
+			return new MyExecutor();
+		}
+		class MyExecutor : Java.Lang.Object, IExecutor
+		{
+			Handler handler = new Handler(Looper.MainLooper);
+			public void Execute(IRunnable r)
+			{
+				handler.Post(r);
+			}
+		}
+
+		public void Accept(Java.Lang.Object newLayoutInfo)  // Object will be WindowLayoutInfo
+		{
+			Log.Info(TAG, "===LayoutStateChangeCallback.Accept");
+			var wli = newLayoutInfo as WindowLayoutInfo;
+			if (wli.DisplayFeatures.Count == 0)
+			{ // no hinge found
+				isDualMode = false;
+			}
+			else
+			{
+				foreach (var df in wli.DisplayFeatures)
+				{
+					Log.Info(TAG, "Bounds:" + df.Bounds);
+					var ff = df as FoldingFeature;
+					if (!(ff is null))
+					{   // a hinge exists
+						Log.Info(TAG, "Orientation: " + ff.Orientation);
+						isDualMode = true;
+						hingeOrientation = ff.Orientation;
+						isDuo = true; //HACK: set first time we see the hinge, never un-set
+					}
+					else
+					{ // no hinge found
+						isDualMode = false;
+					}
+				}
+			}
+			SetupLayout();
+		}
+
+		public override void OnAttachedToWindow()
+		{
+			base.OnAttachedToWindow();
+			wm.RegisterLayoutChangeCallback(runOnUiThreadExecutor(), this);
+		}
+
+		public override void OnDetachedFromWindow()
+		{
+			base.OnDetachedFromWindow();
+			wm.UnregisterLayoutChangeCallback(this);
 		}
 
 		void UseSingleMode()
@@ -59,18 +121,18 @@ namespace DualView
 				ShowFragment(baseFragment);
 		}
 
-		void UseDualMode(SurfaceOrientation rotation)
+		void UseDualMode(int hingeOrientation)
 		{
-			switch (rotation)
+			switch (hingeOrientation)
 			{
-				case SurfaceOrientation.Rotation90:
-				case SurfaceOrientation.Rotation270:
-					// Setting layout for double landscape
+				case FoldingFeature.OrientationHorizontal:
+					// hinge horizontal - setting layout for double landscape
 					var baseFragment = fragmentMap[GetSimpleName<DualLandscape>()];
 					if (baseFragment != null)
 						ShowFragment(baseFragment);
 					break;
-				default:
+				default: //includes FoldingFeature.OrientationVertical
+						 // hinge vertical - setting layout for double portrait
 					var baseFragment1 = fragmentMap[GetSimpleName<DualPortrait>()];
 					if (baseFragment1 != null)
 						ShowFragment(baseFragment1);
@@ -80,11 +142,10 @@ namespace DualView
 
 		void SetupLayout()
 		{
-			var rotation = ScreenHelper.GetRotation(this);
 			if (isDuo)
 			{
-				if (screenHelper.IsDualMode)
-					UseDualMode(rotation);
+				if (isDualMode)
+					UseDualMode(hingeOrientation);
 				else
 					UseSingleMode();
 			}
@@ -97,11 +158,7 @@ namespace DualView
 		public override void OnConfigurationChanged(Configuration newConfig)
 		{
 			base.OnConfigurationChanged(newConfig);
-
-			if (ScreenHelper.IsDualScreenDevice(this))
-				screenHelper.Update();
-
-			SetupLayout();
+			//SetupLayout(); // HACK: rotation doesn't update layout, when this is commented out; but when uncommented there is a Fragment error
 		}
 
 		void ShowFragment(BaseFragment fragment)

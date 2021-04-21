@@ -5,7 +5,6 @@ using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
 using AndroidX.ViewPager.Widget;
-//using Microsoft.Device.Display; HACK: WM alpha
 using AndroidX.Window;
 using AndroidX.Core;
 using AndroidX.Core.Util;
@@ -40,17 +39,17 @@ namespace TwoPage
 	public class MainActivity : AppCompatActivity, ViewPager.IOnPageChangeListener, IConsumer
 	{
 		const string TAG = "JWM"; // Jetpack Window Manager
+		WindowManager wm;
+		int hingeOrientation = FoldingFeature.OrientationVertical;
+		bool isDuo, isDualMode; 
+		
 		ViewPager viewPager;
 		PagerAdapter pagerAdapter;
 
 		/// <summary>Page number</summary>
 		int position = 0;
-		int hingeOrientation = FoldingFeature.OrientationVertical;
-		bool isDuo, isDualMode;
 		View single;
 		View dual;
-
-		WindowManager wm;
 
 		//LayoutStateChangeCallback layoutStateChangeCallback = new LayoutStateChangeCallback();
 
