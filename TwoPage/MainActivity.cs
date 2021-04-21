@@ -26,6 +26,7 @@ using Android.Util;
           Registering and receiving events works, but the orientation value seems off
           IConsumer.Accept is added to the Activity so that it can receive method calls on layout state changed
 
+21-Apr-21 Refactor out test code, seems to work...
 */
 namespace TwoPage
 {
@@ -41,8 +42,10 @@ namespace TwoPage
 		const string TAG = "JWM"; // Jetpack Window Manager
 		ViewPager viewPager;
 		PagerAdapter pagerAdapter;
-		//ScreenHelper screenHelper;
-		int position = 0, hingeOrientation = 0; // vertical
+
+		/// <summary>Page number</summary>
+		int position = 0;
+		int hingeOrientation = FoldingFeature.OrientationVertical;
 		bool isDuo, isDualMode;
 		View single;
 		View dual;
@@ -58,9 +61,8 @@ namespace TwoPage
 			base.OnCreate(savedInstanceState);
 			var fragments = TestFragment.Fragments;
 			pagerAdapter = new PagerAdapter(SupportFragmentManager, fragments);
-			//screenHelper = new ScreenHelper(); // HACK: alpha WM
-			//isDuo = screenHelper.Initialize(this); // HACK: alpha WM
-			wm = new WindowManager(this); // HACK: alpha WM
+
+			wm = new WindowManager(this); 
 			
 			single = LayoutInflater.Inflate(Resource.Layout.activity_main, null);
 			dual = LayoutInflater.Inflate(Resource.Layout.double_landscape_layout, null);
@@ -78,19 +80,19 @@ namespace TwoPage
             }
         }
 
-		// Sample uses the activity as the callback method host - keeping this for demonstration purposes only
-        class LayoutStateChangeCallback : Java.Lang.Object, IConsumer
+        [System.Obsolete("Sample uses the activity as the callback method host - keeping this for demonstration purposes only")]
+		class LayoutStateChangeCallback : Java.Lang.Object, IConsumer
         {
-            public void Accept(Java.Lang.Object newLayoutInfo) // should be WindowLayoutInfo not Object (in Binding)
+            public void Accept(Java.Lang.Object newLayoutInfo) // Object will be WindowLayoutInfo
             {
 				Log.Info(TAG, newLayoutInfo.ToString());
-				var wli = newLayoutInfo as WindowLayoutInfo;
+				var wli = newLayoutInfo as WindowLayoutInfo; // cast to Type
 				foreach (var df in wli.DisplayFeatures)
 				{
 					Log.Info(TAG, "Bounds:" + df.Bounds);
 					Log.Info(TAG, "(deprecated)Type: " + df.Type);
-					var ff = df as FoldingFeature;
-					if (!(ff is null))
+					//var ff = df as FoldingFeature;
+					if ((df is FoldingFeature ff))
 					{
 						Log.Info(TAG, "IsSeparating: " + ff.IsSeparating);
 						Log.Info(TAG, "OcclusionMode: " + ff.OcclusionMode);
@@ -100,43 +102,52 @@ namespace TwoPage
 				}
             }
         }
-
-		public void Accept(Java.Lang.Object newLayoutInfo) // should be WindowLayoutInfo not Object (in Binding)
+		
+		public void Accept(Java.Lang.Object newLayoutInfo)  // Object will be WindowLayoutInfo
 		{
+			Log.Info(TAG, "===LayoutStateChangeCallback.Accept");
 			Log.Info(TAG, newLayoutInfo.ToString());
 			var wli = newLayoutInfo as WindowLayoutInfo;
-			foreach (var df in wli.DisplayFeatures)
+			if (wli.DisplayFeatures.Count == 0)
+			{ // no hinge found
+				isDualMode = false;
+			}
+			else
 			{
-				Log.Info(TAG, "Bounds:" + df.Bounds);
-				Log.Info(TAG, "(deprecated)Type: " + df.Type);
-				var ff = df as FoldingFeature;
-				if (!(ff is null))
-				{	// a hinge exists
-					Log.Info(TAG, "IsSeparating: " + ff.IsSeparating);
-					Log.Info(TAG, "OcclusionMode: " + ff.OcclusionMode);
-					Log.Info(TAG, "Orientation: " + ff.Orientation);
-					Log.Info(TAG, "State: " + ff.State);
-					isDualMode = true;
-					hingeOrientation = ff.Orientation; //ERROR: this seems to always be zero :(
-					isDuo = true; //HACK: set first time we see the hinge, never un-set
-				}
-				else
+				foreach (var df in wli.DisplayFeatures)
 				{
-					isDualMode = false;
+					Log.Info(TAG, "Bounds:" + df.Bounds);
+					Log.Info(TAG, "(deprecated)Type: {df.Type} (FOLD or HINGE)");
+					var ff = df as FoldingFeature;
+					if (!(ff is null))
+					{   // a hinge exists
+						Log.Info(TAG, "IsSeparating: " + ff.IsSeparating);
+						Log.Info(TAG, "OcclusionMode: " + ff.OcclusionMode);
+						Log.Info(TAG, "Orientation: " + ff.Orientation);
+						Log.Info(TAG, "State: " + ff.State);
+						isDualMode = true;
+						hingeOrientation = ff.Orientation;
+						isDuo = true; //HACK: set first time we see the hinge, never un-set
+					}
+					else
+					{ // no hinge found
+						isDualMode = false;
+					}
 				}
 			}
+			SetupLayout();
 		}
 
 		public override void OnAttachedToWindow()
-        {
-            base.OnAttachedToWindow();
-			wm.RegisterLayoutChangeCallback(runOnUiThreadExecutor(), this); // was LayoutStateChangeCallback
+		{
+			base.OnAttachedToWindow();
+			wm.RegisterLayoutChangeCallback(runOnUiThreadExecutor(), this);
 		}
 
-        public override void OnDetachedFromWindow()
-        {
-            base.OnDetachedFromWindow();
-			wm.UnregisterLayoutChangeCallback(this); // was LayoutStateChangeCallback
+		public override void OnDetachedFromWindow()
+		{
+			base.OnDetachedFromWindow();
+			wm.UnregisterLayoutChangeCallback(this);
 		}
 
         void UseSingleMode()
@@ -151,13 +162,13 @@ namespace TwoPage
 		{
 			switch (hingeOrientation)
 			{
-				case 1:
+				case FoldingFeature.OrientationHorizontal:
 					// hinge horizontal - setting layout for double landscape
 					SetContentView(dual);
 					ShowTwoPages = false;
 					break;
-				default:
-					// hinge vertical - setting layout for double portrait
+				default: //includes FoldingFeature.OrientationVertical
+						 // hinge vertical - setting layout for double portrait
 					SetContentView(single);
 					ShowTwoPages = true;
 					break;
@@ -167,10 +178,9 @@ namespace TwoPage
 
 		void SetupLayout()
 		{
-			//var rotation = ScreenHelper.GetRotation(this); //HACK:
 			if (isDuo)
 			{
-				if (isDualMode)  // HACK: alpha WM (screenHelper.IsDualMode)
+				if (isDualMode)
 					UseDualMode(hingeOrientation);
 				else
 					UseSingleMode();
@@ -181,36 +191,13 @@ namespace TwoPage
 			}
 		}
 
-		public override void OnConfigurationChanged(Configuration newConfig)
-		{
-			base.OnConfigurationChanged(newConfig);
+        public override void OnConfigurationChanged(Configuration newConfig)
+        {
+            base.OnConfigurationChanged(newConfig);
+			SetupLayout(); // TODO: confirm why this is needed when rotating while spanned...
+        }
 
-			// HACK: alpha WM
-			//			if (ScreenHelper.IsDualScreenDevice(this))
-			//				screenHelper.Update();
-
-			var li = wm.CurrentWindowMetrics; // HACK: alpha WM
-			if (li.Bounds.Width() > li.Bounds.Height()) // HACK: alpha WM
-			{
-				hingeOrientation = 0;
-			}
-			else 
-			{
-				hingeOrientation = 1;
-			}
-			//	isDuo = true;
-			//	isDualMode = true;
-			//	//var hinge = li.DisplayFeatures[0].Bounds; // just for debugging, shows "Rect(1350,0 - 1434,1800)"
-			//}
-			//else
-			//{
-			//	isDualMode = false;
-			//}
-
-			SetupLayout();
-		}
-
-		void SetupViewPager()
+        void SetupViewPager()
 		{
 			pagerAdapter.ShowTwoPages = ShowTwoPages;
 			if (viewPager != null)
