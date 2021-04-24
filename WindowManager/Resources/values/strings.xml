@@ -1,0 +1,6 @@
+<resources>
+  <string name="app_name">WindowManager</string>
+  <string name="window_metrics">window metrics</string>
+  <string name="layout_change_text">layout change text</string>
+  <string name="configuration_changed">Using one logic/physical display - unspanned</string>
+</resources>
