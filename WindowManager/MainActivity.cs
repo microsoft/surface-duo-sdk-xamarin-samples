@@ -1,20 +1,21 @@
 ﻿using Android.App;
+using Android.Graphics;
 using Android.OS;
-using Android.Runtime;
+using Android.Util;
+using Android.Views;
+using Android.Widget;
 using AndroidX.AppCompat.App;
-using AndroidX.Window;
-using AndroidX.Core;
+using AndroidX.ConstraintLayout.Widget;
 using AndroidX.Core.Util;
-using AndroidX.Annotations;
-using AndroidX.Collection;
+using AndroidX.Window;
 using Java.Lang;
 using Java.Util.Concurrent;
-using Android.Util;
-using Android.Widget;
-using Android.Views;
-using AndroidX.ConstraintLayout.Widget;
-using Android.Graphics;
 
+/*
+ This sample is a C# port of this Kotlin code
+ https://github.com/googlecodelabs/android-foldable-codelab/tree/main/window-manager
+ which is part of a Google Codelab that explains how to use Window Manager
+ */
 namespace WindowManagerDemo
 {
     [Activity(Label = "@string/app_name", 
