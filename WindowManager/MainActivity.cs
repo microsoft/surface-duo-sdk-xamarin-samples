@@ -55,7 +55,8 @@ namespace WindowManagerDemo
 
 			if (newLayoutInfo.DisplayFeatures.Count > 0)
 			{
-				configurationChanged.Text = "Spanned across displays";
+				var ff = newLayoutInfo.DisplayFeatures[0] as FoldingFeature;
+				configurationChanged.Text = "Spanned across displays. IsSeparating: " + ff?.IsSeparating;
 				alignViewToDeviceFeatureBoundaries(newLayoutInfo);
 			}
 			else
