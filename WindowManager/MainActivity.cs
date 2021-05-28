@@ -68,6 +68,7 @@ namespace WindowManagerDemo
 		void alignViewToDeviceFeatureBoundaries(WindowLayoutInfo newLayoutInfo)
 		{
 			var set = new ConstraintSet();
+			set.Clone(constraintLayout); // existing constraints baseline
 			var foldFeature = newLayoutInfo.DisplayFeatures[0] as FoldingFeature;
 			//We get the display feature bounds.
 			var rect = foldFeature.Bounds;
@@ -89,10 +90,10 @@ namespace WindowManagerDemo
 			{
 				// Device feature is placed vertically
 				set.SetMargin(Resource.Id.device_feature, ConstraintSet.Start, rect.Left);
-                //set.Connect(
-                //    Resource.Id.layout_change, ConstraintSet.End,
-                //    Resource.Id.device_feature, ConstraintSet.Start, 0
-                //);
+                set.Connect(
+                    Resource.Id.layout_change, ConstraintSet.End,
+                    Resource.Id.device_feature, ConstraintSet.Start, 0
+                );
             }
 			else
 			{
@@ -104,10 +105,10 @@ namespace WindowManagerDemo
 					Resource.Id.device_feature, ConstraintSet.Top,
 					rect.Top - statusBarHeight - toolBarHeight
 				);
-                //set.Connect(
-                //    Resource.Id.layout_change, ConstraintSet.Top,
-                //    Resource.Id.device_feature, ConstraintSet.Bottom, 0
-                //);
+                set.Connect(
+                    Resource.Id.layout_change, ConstraintSet.Top,
+                    Resource.Id.device_feature, ConstraintSet.Bottom, 0
+                );
             }
 			
 			//Set the view to visible and apply constraints
