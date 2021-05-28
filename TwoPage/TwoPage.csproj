@@ -99,7 +99,7 @@
       <Version>1.1.3</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.Window">
-      <Version>1.0.0.1-alpha05</Version>
+      <Version>1.0.0-alpha06</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

@@ -89,7 +89,6 @@ namespace TwoPage
 				foreach (var df in wli.DisplayFeatures)
 				{
 					Log.Info(TAG, "Bounds:" + df.Bounds);
-					Log.Info(TAG, "(deprecated)Type: " + df.Type);
 					//var ff = df as FoldingFeature;
 					if ((df is FoldingFeature ff))
 					{
