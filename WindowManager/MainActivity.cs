@@ -56,7 +56,9 @@ namespace WindowManagerDemo
 			if (newLayoutInfo.DisplayFeatures.Count > 0)
 			{
 				var ff = newLayoutInfo.DisplayFeatures[0] as FoldingFeature;
-				configurationChanged.Text = "Spanned across displays. IsSeparating: " + ff?.IsSeparating;
+				configurationChanged.Text = "Spanned across displays.\nIsSeparating: " + ff?.IsSeparating
+						+ "\nOrientation: " + ff?.Orientation  // FoldingFeature.OrientationVertical or Horizontal
+						+ "\nOcclusionMode: " + ff.OcclusionMode; // FoldingFeature.OcclusionFull or None
 				alignViewToDeviceFeatureBoundaries(newLayoutInfo);
 			}
 			else
