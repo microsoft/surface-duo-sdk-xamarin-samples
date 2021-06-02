@@ -53,18 +53,31 @@ namespace WindowManagerDemo
 			
 			layoutChange.Text = newLayoutInfo.ToString();
 
-			if (newLayoutInfo.DisplayFeatures.Count > 0)
-			{
-				var ff = newLayoutInfo.DisplayFeatures[0] as FoldingFeature;
-				configurationChanged.Text = "Spanned across displays.\nIsSeparating: " + ff?.IsSeparating
-						+ "\nOrientation: " + ff?.Orientation  // FoldingFeature.OrientationVertical or Horizontal
-						+ "\nOcclusionMode: " + ff.OcclusionMode; // FoldingFeature.OcclusionFull or None
-				alignViewToDeviceFeatureBoundaries(newLayoutInfo);
-			}
-			else
-			{
-				configurationChanged.Text = "One logic/physical display - unspanned";
-			}
+			configurationChanged.Text = "One logic/physical display - unspanned";
+
+            foreach (var displayFeature in newLayoutInfo.DisplayFeatures)
+            {
+                if (displayFeature is FoldingFeature foldingFeature)
+                {
+					alignViewToDeviceFeatureBoundaries(newLayoutInfo);
+
+					if (foldingFeature.OcclusionMode == FoldingFeature.OcclusionNone)
+                    {
+                        configurationChanged.Text = "App is spanned across a fold";
+                    }
+                    if (foldingFeature.OcclusionMode == FoldingFeature.OcclusionFull)
+                    {
+                        configurationChanged.Text = "App is spanned across a hinge";
+                    }
+                    configurationChanged.Text += "\nIsSeparating: " + foldingFeature.IsSeparating
+                            + "\nOrientation: " + foldingFeature.Orientation  // FoldingFeature.OrientationVertical or Horizontal
+                            + "\nState: " + foldingFeature.State; // FoldingFeature.StateFlat or StateHalfOpened
+				}
+                else
+                {
+                    Log.Info(TAG, "DisplayFeature is not a fold or hinge");
+                }
+            }
 		}
 
 		void alignViewToDeviceFeatureBoundaries(WindowLayoutInfo newLayoutInfo)
