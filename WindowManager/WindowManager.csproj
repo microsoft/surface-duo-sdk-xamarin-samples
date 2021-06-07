@@ -103,7 +103,7 @@
       <Version>2.0.4.2</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.Window">
-      <Version>1.0.0-alpha06</Version>
+      <Version>1.0.0-alpha07</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Google.Android.Material" Version="1.0.0.1" />
   </ItemGroup>
