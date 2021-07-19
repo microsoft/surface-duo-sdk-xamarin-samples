@@ -98,15 +98,15 @@ namespace CompanionPane
 			SetupLayout();
 		}
 
-		public override void OnAttachedToWindow()
+		protected override void OnStart()
 		{
-			base.OnAttachedToWindow();
+			base.OnStart();
 			wm.RegisterLayoutChangeCallback(runOnUiThreadExecutor(), this);
 		}
 
-		public override void OnDetachedFromWindow()
+		protected override void OnStop()
 		{
-			base.OnDetachedFromWindow();
+			base.OnStop();
 			wm.UnregisterLayoutChangeCallback(this);
 		}
 
@@ -129,13 +129,7 @@ namespace CompanionPane
 			}
 		}
 
-		public override void OnConfigurationChanged(Configuration newConfig)
-		{
-			base.OnConfigurationChanged(newConfig);
-			SetupLayout();
-		}
-
-		void UseDualMode(FoldingFeature.Orientation hingeOrientation)
+        void UseDualMode(FoldingFeature.Orientation hingeOrientation)
 		{
 			if (hingeOrientation == FoldingFeature.Orientation.Horizontal)
 			{

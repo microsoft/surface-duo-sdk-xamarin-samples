@@ -18,6 +18,7 @@ using Java.Util.Concurrent;
 
 19-Jul-21 Update to androidx.window-1.0.0-apha09
 		  FoldingFeature API changes - some properties became methods (GetOrientation, GetState, GetOcclusionType) and their types became "enums" (static class fields)
+          Use OnStart/Stop instead of OnAttachedToWindow/OnDetached
  */
 namespace WindowManagerDemo
 {
@@ -174,15 +175,15 @@ namespace WindowManagerDemo
             printLayoutStateChange(newLayoutInfo as WindowLayoutInfo);
         }
 
-        public override void OnAttachedToWindow()
+        protected override void OnStart()
         {
-            base.OnAttachedToWindow();
+            base.OnStart();
             wm.RegisterLayoutChangeCallback(runOnUiThreadExecutor(), this);
         }
 
-        public override void OnDetachedFromWindow()
+        protected override void OnStop()
         {
-            base.OnDetachedFromWindow();
+            base.OnStop();
             wm.UnregisterLayoutChangeCallback(this);
         }
     }

@@ -87,15 +87,15 @@ namespace ListDetail
 			SetupLayout();
 		}
 
-		public override void OnAttachedToWindow()
+		protected override void OnStart()
 		{
-			base.OnAttachedToWindow();
+			base.OnStart();
 			wm.RegisterLayoutChangeCallback(runOnUiThreadExecutor(), this);
 		}
 
-		public override void OnDetachedFromWindow()
+		protected override void OnStop()
 		{
-			base.OnDetachedFromWindow();
+			base.OnStop();
 			wm.UnregisterLayoutChangeCallback(this);
 		}
 
@@ -128,12 +128,6 @@ namespace ListDetail
 			{
 				UseSingleMode();
 			}
-		}
-
-		public override void OnConfigurationChanged(Configuration newConfig)
-		{
-			base.OnConfigurationChanged(newConfig);
-			//SetupLayout(); // HACK: rotation doesn't update layout, when this is commented out; but when uncommented there is a Fragment error
 		}
 
 		void ShowFragment(Fragment fragment)

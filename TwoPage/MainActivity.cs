@@ -28,6 +28,7 @@ using Android.Util;
 21-Apr-21 Refactor out test code, seems to work...
 19-Jul-21 Update to androidx.window-1.0.0-apha09
 		  FoldingFeature API changes - some properties became methods (GetOrientation, GetState, GetOcclusionType) and their types became "enums" (static class fields)
+		  Use OnStart/Stop instead of OnAttachedToWindow/OnDetached
 */
 namespace TwoPage
 {
@@ -138,19 +139,19 @@ namespace TwoPage
 			SetupLayout();
 		}
 
-		public override void OnAttachedToWindow()
+		protected override void OnStart()
 		{
-			base.OnAttachedToWindow();
+			base.OnStart();
 			wm.RegisterLayoutChangeCallback(runOnUiThreadExecutor(), this);
 		}
 
-		public override void OnDetachedFromWindow()
+		protected override void OnStop()
 		{
-			base.OnDetachedFromWindow();
+			base.OnStop();
 			wm.UnregisterLayoutChangeCallback(this);
 		}
 
-        void UseSingleMode()
+		void UseSingleMode()
 		{
 			//Setting layout for single portrait
 			SetContentView(single);
@@ -188,12 +189,6 @@ namespace TwoPage
 				UseSingleMode();
 			}
 		}
-
-        public override void OnConfigurationChanged(Configuration newConfig)
-        {
-            base.OnConfigurationChanged(newConfig);
-			SetupLayout(); // TODO: confirm why this is needed when rotating while spanned...
-        }
 
         void SetupViewPager()
 		{
