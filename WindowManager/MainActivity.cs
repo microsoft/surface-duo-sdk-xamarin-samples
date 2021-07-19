@@ -15,6 +15,9 @@ using Java.Util.Concurrent;
  This sample is a C# port of this Kotlin code
  https://github.com/googlecodelabs/android-foldable-codelab/tree/main/window-manager
  which is part of a Google Codelab that explains how to use Window Manager
+
+19-Jul-21 Update to androidx.window-1.0.0-apha09
+		  FoldingFeature API changes - some properties became methods (GetOrientation, GetState, GetOcclusionType) and their types became "enums" (static class fields)
  */
 namespace WindowManagerDemo
 {
@@ -60,18 +63,18 @@ namespace WindowManagerDemo
                 if (displayFeature is FoldingFeature foldingFeature)
                 {
                     alignViewToDeviceFeatureBoundaries(newLayoutInfo);
-
-                    if (foldingFeature.OcclusionMode == FoldingFeature.OcclusionNone)
+                    
+                    if (foldingFeature.GetOcclusionType() == FoldingFeature.OcclusionType.None)
                     {
                         configurationChanged.Text = "App is spanned across a fold";
                     }
-                    if (foldingFeature.OcclusionMode == FoldingFeature.OcclusionFull)
+                    if (foldingFeature.GetOcclusionType() == FoldingFeature.OcclusionType.Full)
                     {
                         configurationChanged.Text = "App is spanned across a hinge";
                     }
                     configurationChanged.Text += "\nIsSeparating: " + foldingFeature.IsSeparating
-                            + "\nOrientation: " + foldingFeature.Orientation  // FoldingFeature.OrientationVertical or Horizontal
-                            + "\nState: " + foldingFeature.State; // FoldingFeature.StateFlat or StateHalfOpened
+                            + "\nOrientation: " + foldingFeature.GetOrientation()  // FoldingFeature.Orientation.Vertical or Horizontal
+                            + "\nState: " + foldingFeature.GetState(); // FoldingFeature.StateFlat or StateHalfOpened
                 }
                 else
                 {
@@ -100,8 +103,8 @@ namespace WindowManagerDemo
                 Resource.Id.device_feature, ConstraintSet.Top,
                 ConstraintSet.ParentId, ConstraintSet.Top, 0
             );
-
-            if (foldFeature.Orientation == FoldingFeature.OrientationVertical)
+            
+            if (foldFeature.GetOrientation() == FoldingFeature.Orientation.Vertical)
             {
                 // Device feature is placed vertically
                 set.SetMargin(Resource.Id.device_feature, ConstraintSet.Start, rect.Left);

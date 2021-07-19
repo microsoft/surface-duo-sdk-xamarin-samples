@@ -103,9 +103,9 @@
       <Version>2.0.4.2</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.Window">
-      <Version>1.0.0-alpha07</Version>
+      <Version>1.0.0-alpha09</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Google.Android.Material" Version="1.0.0.1" />
+    <PackageReference Include="Xamarin.Google.Android.Material" Version="1.4.0" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ic_launcher_background.xml">

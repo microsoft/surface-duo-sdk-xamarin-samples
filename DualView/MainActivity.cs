@@ -26,7 +26,7 @@ namespace DualView
 	{
 		const string TAG = "JWM"; // Jetpack Window Manager
 		WindowManager wm;
-		int hingeOrientation = FoldingFeature.OrientationVertical;
+		FoldingFeature.Orientation hingeOrientation = FoldingFeature.Orientation.Vertical;
 		bool isDuo, isDualMode;
 
 		Dictionary<string, BaseFragment> fragmentMap;
@@ -88,9 +88,9 @@ namespace DualView
 					var ff = df as FoldingFeature;
 					if (!(ff is null))
 					{   // a hinge exists
-						Log.Info(TAG, "Orientation: " + ff.Orientation);
+						Log.Info(TAG, "Orientation: " + ff.GetOrientation());
 						isDualMode = true;
-						hingeOrientation = ff.Orientation;
+						hingeOrientation = ff.GetOrientation();
 						isDuo = true; //HACK: set first time we see the hinge, never un-set
 					}
 					else
@@ -121,22 +121,24 @@ namespace DualView
 				ShowFragment(baseFragment);
 		}
 
-		void UseDualMode(int hingeOrientation)
+		void UseDualMode(FoldingFeature.Orientation hingeOrientation)
 		{
-			switch (hingeOrientation)
-			{
-				case FoldingFeature.OrientationHorizontal:
-					// hinge horizontal - setting layout for double landscape
-					var baseFragment = fragmentMap[GetSimpleName<DualLandscape>()];
-					if (baseFragment != null)
-						ShowFragment(baseFragment);
-					break;
-				default: //includes FoldingFeature.OrientationVertical
-						 // hinge vertical - setting layout for double portrait
-					var baseFragment1 = fragmentMap[GetSimpleName<DualPortrait>()];
-					if (baseFragment1 != null)
-						ShowFragment(baseFragment1);
-					break;
+			if (hingeOrientation == FoldingFeature.Orientation.Horizontal)
+			{   // hinge horizontal - setting layout for double landscape
+				var baseFragment = fragmentMap[GetSimpleName<DualLandscape>()];
+				if (baseFragment != null)
+				{
+					ShowFragment(baseFragment);
+				}
+			} 
+			else
+			{	//includes FoldingFeature.Orientation.Vertical
+				// hinge vertical - setting layout for double portrait
+				var baseFragment1 = fragmentMap[GetSimpleName<DualPortrait>()];
+				if (baseFragment1 != null)
+				{
+					ShowFragment(baseFragment1);
+				}
 			}
 		}
 

@@ -26,6 +26,8 @@ using Android.Util;
           IConsumer.Accept is added to the Activity so that it can receive method calls on layout state changed
 
 21-Apr-21 Refactor out test code, seems to work...
+19-Jul-21 Update to androidx.window-1.0.0-apha09
+		  FoldingFeature API changes - some properties became methods (GetOrientation, GetState, GetOcclusionType) and their types became "enums" (static class fields)
 */
 namespace TwoPage
 {
@@ -40,7 +42,7 @@ namespace TwoPage
 	{
 		const string TAG = "JWM"; // Jetpack Window Manager
 		WindowManager wm;
-		int hingeOrientation = FoldingFeature.OrientationVertical;
+		FoldingFeature.Orientation hingeOrientation = FoldingFeature.Orientation.Vertical;
 		bool isDuo, isDualMode; 
 		
 		ViewPager viewPager;
@@ -93,9 +95,9 @@ namespace TwoPage
 					if ((df is FoldingFeature ff))
 					{
 						Log.Info(TAG, "IsSeparating: " + ff.IsSeparating);
-						Log.Info(TAG, "OcclusionMode: " + ff.OcclusionMode);
-						Log.Info(TAG, "Orientation: " + ff.Orientation);
-						Log.Info(TAG, "State: " + ff.State);
+						Log.Info(TAG, "OcclusionMode: " + ff.GetOcclusionType());
+						Log.Info(TAG, "Orientation: " + ff.GetOrientation());
+						Log.Info(TAG, "State: " + ff.GetState());
 					}
 				}
             }
@@ -120,11 +122,11 @@ namespace TwoPage
 					if (!(ff is null))
 					{   // a hinge exists
 						Log.Info(TAG, "IsSeparating: " + ff.IsSeparating);
-						Log.Info(TAG, "OcclusionMode: " + ff.OcclusionMode);
-						Log.Info(TAG, "Orientation: " + ff.Orientation);
-						Log.Info(TAG, "State: " + ff.State);
+						Log.Info(TAG, "OcclusionMode: " + ff.GetOcclusionType());
+						Log.Info(TAG, "Orientation: " + ff.GetOrientation());
+						Log.Info(TAG, "State: " + ff.GetState());
 						isDualMode = true;
-						hingeOrientation = ff.Orientation;
+						hingeOrientation = ff.GetOrientation();
 						isDuo = true; //HACK: set first time we see the hinge, never un-set
 					}
 					else
@@ -156,20 +158,18 @@ namespace TwoPage
 			SetupViewPager();
 		}
 
-		void UseDualMode(int hingeOrientation)
+		void UseDualMode(FoldingFeature.Orientation hingeOrientation)
 		{
-			switch (hingeOrientation)
-			{
-				case FoldingFeature.OrientationHorizontal:
-					// hinge horizontal - setting layout for double landscape
-					SetContentView(dual);
-					ShowTwoPages = false;
-					break;
-				default: //includes FoldingFeature.OrientationVertical
-						 // hinge vertical - setting layout for double portrait
-					SetContentView(single);
-					ShowTwoPages = true;
-					break;
+			if (hingeOrientation == FoldingFeature.Orientation.Horizontal)
+			{	// hinge horizontal - setting layout for double landscape
+				SetContentView(dual);
+				ShowTwoPages = false;
+			}
+			else 
+			{	//includes FoldingFeature.OrientationVertical
+				// hinge vertical - setting layout for double portrait
+				SetContentView(single);
+				ShowTwoPages = true;
 			}
 			SetupViewPager();
 		}
