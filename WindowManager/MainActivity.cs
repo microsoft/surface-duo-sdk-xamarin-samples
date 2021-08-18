@@ -7,7 +7,8 @@ using Android.Widget;
 using AndroidX.AppCompat.App;
 using AndroidX.ConstraintLayout.Widget;
 using AndroidX.Core.Util;
-using AndroidX.Window;
+using Androidx.Window.Layout; // HACK: not sure why lowercase 'x' (preview NuGet from build server)
+using Androidx.Window.Java.Layout; // HACK: not sure why lowercase 'x' (preview NuGet from build server)
 using Java.Lang;
 using Java.Util.Concurrent;
 
@@ -15,6 +16,9 @@ using Java.Util.Concurrent;
  This sample is a C# port of this Kotlin code
  https://github.com/googlecodelabs/android-foldable-codelab/tree/main/window-manager
  which is part of a Google Codelab that explains how to use Window Manager
+
+ 17-Aug-21: updated to AndroidX.Window-1.0.0-alpha10 with
+            AndroidX.Window.Java-1.0.0-alpha10 Java-compatibility API
  */
 namespace WindowManagerDemo
 {
@@ -25,7 +29,8 @@ namespace WindowManagerDemo
     public class MainActivity : AppCompatActivity, IConsumer
     {
         const string TAG = "JWM"; // Jetpack Window Manager
-        WindowManager wm;
+        WindowInfoRepositoryCallbackAdapter wir;
+        IWindowMetricsCalculator wmc;
 
         ConstraintLayout constraintLayout;
         TextView windowMetrics, layoutChange, configurationChanged;
@@ -34,7 +39,10 @@ namespace WindowManagerDemo
         {
             base.OnCreate(savedInstanceState);
 
-            wm = new WindowManager(this);
+            wir = new WindowInfoRepositoryCallbackAdapter(WindowInfoRepository.Companion.GetOrCreate(this));
+            wmc = WindowMetricsCalculator.Companion.OrCreate; // HACK: source method is `getOrCreate`, binding generator munges this badly :(
+
+            wir.AddWindowLayoutInfoListener(runOnUiThreadExecutor(), this);
 
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
@@ -46,10 +54,10 @@ namespace WindowManagerDemo
 
         void printLayoutStateChange(WindowLayoutInfo newLayoutInfo)
         {
-            Log.Info(TAG, wm.CurrentWindowMetrics.Bounds.ToString());
-            Log.Info(TAG, wm.MaximumWindowMetrics.Bounds.ToString());
-            windowMetrics.Text = $"CurrentWindowMetrics: {wm.CurrentWindowMetrics.Bounds}\n" +
-                $"MaximumWindowMetrics: {wm.MaximumWindowMetrics.Bounds}";
+            Log.Info(TAG, wmc.ComputeCurrentWindowMetrics(this).Bounds.ToString());
+            Log.Info(TAG, wmc.ComputeMaximumWindowMetrics(this).Bounds.ToString());
+            windowMetrics.Text = $"CurrentWindowMetrics: {wmc.ComputeCurrentWindowMetrics(this).Bounds}\n" +
+                $"MaximumWindowMetrics: {wmc.ComputeMaximumWindowMetrics(this).Bounds}";
 
             layoutChange.Text = newLayoutInfo.ToString();
 
@@ -61,17 +69,17 @@ namespace WindowManagerDemo
                 {
                     alignViewToDeviceFeatureBoundaries(newLayoutInfo);
 
-                    if (foldingFeature.OcclusionMode == FoldingFeature.OcclusionNone)
+                    if (foldingFeature.GetOcclusionType() == FoldingFeature.OcclusionType.None)
                     {
                         configurationChanged.Text = "App is spanned across a fold";
                     }
-                    if (foldingFeature.OcclusionMode == FoldingFeature.OcclusionFull)
+                    if (foldingFeature.GetOcclusionType() == FoldingFeature.OcclusionType.Full)
                     {
                         configurationChanged.Text = "App is spanned across a hinge";
                     }
                     configurationChanged.Text += "\nIsSeparating: " + foldingFeature.IsSeparating
-                            + "\nOrientation: " + foldingFeature.Orientation  // FoldingFeature.OrientationVertical or Horizontal
-                            + "\nState: " + foldingFeature.State; // FoldingFeature.StateFlat or StateHalfOpened
+                            + "\nOrientation: " + foldingFeature.GetOrientation()  // FoldingFeature.OrientationVertical or Horizontal
+                            + "\nState: " + foldingFeature.GetState(); // FoldingFeature.StateFlat or StateHalfOpened
                 }
                 else
                 {
@@ -101,7 +109,7 @@ namespace WindowManagerDemo
                 ConstraintSet.ParentId, ConstraintSet.Top, 0
             );
 
-            if (foldFeature.Orientation == FoldingFeature.OrientationVertical)
+            if (foldFeature.GetOrientation() == FoldingFeature.Orientation.Vertical)
             {
                 // Device feature is placed vertically
                 set.SetMargin(Resource.Id.device_feature, ConstraintSet.Start, rect.Left);
@@ -151,6 +159,7 @@ namespace WindowManagerDemo
             return rect.Top;
         }
 
+        #region Used by WindowInfoRepository callback
         IExecutor runOnUiThreadExecutor()
         {
             return new MyExecutor();
@@ -170,17 +179,6 @@ namespace WindowManagerDemo
             Log.Info(TAG, newLayoutInfo.ToString());
             printLayoutStateChange(newLayoutInfo as WindowLayoutInfo);
         }
-
-        public override void OnAttachedToWindow()
-        {
-            base.OnAttachedToWindow();
-            wm.RegisterLayoutChangeCallback(runOnUiThreadExecutor(), this);
-        }
-
-        public override void OnDetachedFromWindow()
-        {
-            base.OnDetachedFromWindow();
-            wm.UnregisterLayoutChangeCallback(this);
-        }
+        #endregion
     }
 }

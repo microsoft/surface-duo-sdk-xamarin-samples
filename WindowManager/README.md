@@ -2,7 +2,7 @@
 
 Visit the [Window Manager for Xamarin docs](https://docs.microsoft.com/dual-screen/xamarin/) for more information on using Window Manager in your apps.
 
-![Window Manager example spanned across two screens](Screenshots/xamarin-window-manager.png)
+![Window Manager example spanned across two screens](../Screenshots/xamarin-window-manager.png)
 
 ## Related links
 
