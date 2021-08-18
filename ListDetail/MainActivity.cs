@@ -25,7 +25,7 @@ namespace ListDetail
 	{
 		const string TAG = "JWM"; // Jetpack Window Manager
 		WindowManager wm;
-		int hingeOrientation = FoldingFeature.OrientationVertical;
+		FoldingFeature.Orientation hingeOrientation = FoldingFeature.Orientation.Vertical;
 		bool isDuo, isDualMode;
 
 		SinglePortrait singlePortrait;
@@ -73,9 +73,9 @@ namespace ListDetail
 					var ff = df as FoldingFeature;
 					if (!(ff is null))
 					{   // a hinge exists
-						Log.Info(TAG, "Orientation: " + ff.Orientation);
+						Log.Info(TAG, "Orientation: " + ff.GetOrientation());
 						isDualMode = true;
-						hingeOrientation = ff.Orientation;
+						hingeOrientation = ff.GetOrientation();
 						isDuo = true; //HACK: set first time we see the hinge, never un-set
 					}
 					else
@@ -87,33 +87,31 @@ namespace ListDetail
 			SetupLayout();
 		}
 
-		public override void OnAttachedToWindow()
+		protected override void OnStart()
 		{
-			base.OnAttachedToWindow();
+			base.OnStart();
 			wm.RegisterLayoutChangeCallback(runOnUiThreadExecutor(), this);
 		}
 
-		public override void OnDetachedFromWindow()
+		protected override void OnStop()
 		{
-			base.OnDetachedFromWindow();
+			base.OnStop();
 			wm.UnregisterLayoutChangeCallback(this);
 		}
 
 		void UseSingleMode()
 			=> ShowFragment(singlePortrait);
 
-		void UseDualMode(int hingeOrientation)
+		void UseDualMode(FoldingFeature.Orientation hingeOrientation)
 		{
-			switch (hingeOrientation)
+			if (hingeOrientation == FoldingFeature.Orientation.Horizontal)
 			{
-				case FoldingFeature.OrientationHorizontal:
-					// hinge horizontal - setting layout for double landscape
-					UseSingleMode();
-					break;
-				default: //includes FoldingFeature.OrientationVertical
-						 // hinge vertical - setting layout for double portrait
-					ShowFragment(dualPortrait);
-					break;
+				// hinge horizontal - setting layout for double landscape
+				UseSingleMode();
+			} else {
+				//includes FoldingFeature.Orientation.Vertical
+				// hinge vertical - setting layout for double portrait
+				ShowFragment(dualPortrait);
 			}
 		}
 
@@ -130,12 +128,6 @@ namespace ListDetail
 			{
 				UseSingleMode();
 			}
-		}
-
-		public override void OnConfigurationChanged(Configuration newConfig)
-		{
-			base.OnConfigurationChanged(newConfig);
-			//SetupLayout(); // HACK: rotation doesn't update layout, when this is commented out; but when uncommented there is a Fragment error
 		}
 
 		void ShowFragment(Fragment fragment)

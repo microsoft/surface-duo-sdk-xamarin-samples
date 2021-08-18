@@ -20,7 +20,6 @@ namespace DragAndDrop
     {
         const string TAG = "JWM"; // Jetpack Window Manager
         WindowManager wm;
-        int hingeOrientation = FoldingFeature.OrientationVertical;
         bool isDuo, isDualMode;
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -67,9 +66,8 @@ namespace DragAndDrop
                     var ff = df as FoldingFeature;
                     if (!(ff is null))
                     {   // a hinge exists
-                        Log.Info(TAG, "Orientation: " + ff.Orientation);
+                        Log.Info(TAG, "Orientation: " + ff.GetOrientation());
                         isDualMode = true;
-                        hingeOrientation = ff.Orientation;
                         isDuo = true; //HACK: set first time we see the hinge, never un-set
                     }
                     else
@@ -81,15 +79,15 @@ namespace DragAndDrop
             SetupLayout();
         }
 
-        public override void OnAttachedToWindow()
+        protected override void OnStart()
         {
-            base.OnAttachedToWindow();
+            base.OnStart();
             wm.RegisterLayoutChangeCallback(runOnUiThreadExecutor(), this);
         }
 
-        public override void OnDetachedFromWindow()
+        protected override void OnStop()
         {
-            base.OnDetachedFromWindow();
+            base.OnStop();
             wm.UnregisterLayoutChangeCallback(this);
         }
 

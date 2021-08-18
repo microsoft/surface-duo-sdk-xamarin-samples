@@ -25,7 +25,7 @@ namespace CompanionPane
 	{
 		const string TAG = "JWM"; // Jetpack Window Manager
 		WindowManager wm;
-		int hingeOrientation = FoldingFeature.OrientationVertical;
+		FoldingFeature.Orientation hingeOrientation = FoldingFeature.Orientation.Vertical;
 		bool isDuo, isDualMode;
 
 		SinglePortrait singlePortrait;
@@ -84,9 +84,9 @@ namespace CompanionPane
 					var ff = df as FoldingFeature;
 					if (!(ff is null))
 					{   // a hinge exists
-						Log.Info(TAG, "Orientation: " + ff.Orientation);
+						Log.Info(TAG, "Orientation: " + ff.GetOrientation());
 						isDualMode = true;
-						hingeOrientation = ff.Orientation;
+						hingeOrientation = ff.GetOrientation();
 						isDuo = true; //HACK: set first time we see the hinge, never un-set
 					}
 					else
@@ -98,15 +98,15 @@ namespace CompanionPane
 			SetupLayout();
 		}
 
-		public override void OnAttachedToWindow()
+		protected override void OnStart()
 		{
-			base.OnAttachedToWindow();
+			base.OnStart();
 			wm.RegisterLayoutChangeCallback(runOnUiThreadExecutor(), this);
 		}
 
-		public override void OnDetachedFromWindow()
+		protected override void OnStop()
 		{
-			base.OnDetachedFromWindow();
+			base.OnStop();
 			wm.UnregisterLayoutChangeCallback(this);
 		}
 
@@ -129,15 +129,9 @@ namespace CompanionPane
 			}
 		}
 
-		public override void OnConfigurationChanged(Configuration newConfig)
+        void UseDualMode(FoldingFeature.Orientation hingeOrientation)
 		{
-			base.OnConfigurationChanged(newConfig);
-			SetupLayout();
-		}
-
-		void UseDualMode(int hingeOrientation)
-		{
-			if (hingeOrientation == FoldingFeature.OrientationHorizontal)
+			if (hingeOrientation == FoldingFeature.Orientation.Horizontal)
 			{
 				dualLandscape.setCurrentPosition(currentPosition);
 				ShowFragment(dualLandscape);

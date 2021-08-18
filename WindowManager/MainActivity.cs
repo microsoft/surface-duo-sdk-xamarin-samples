@@ -17,8 +17,11 @@ using Java.Util.Concurrent;
  https://github.com/googlecodelabs/android-foldable-codelab/tree/main/window-manager
  which is part of a Google Codelab that explains how to use Window Manager
 
- 17-Aug-21: updated to AndroidX.Window-1.0.0-alpha10 with
+17-Aug-21: updated to AndroidX.Window-1.0.0-alpha10 with
             AndroidX.Window.Java-1.0.0-alpha10 Java-compatibility API
+19-Jul-21 Update to androidx.window-1.0.0-apha09
+		  FoldingFeature API changes - some properties became methods (GetOrientation, GetState, GetOcclusionType) and their types became "enums" (static class fields)
+          Use OnStart/Stop instead of OnAttachedToWindow/OnDetached
  */
 namespace WindowManagerDemo
 {
