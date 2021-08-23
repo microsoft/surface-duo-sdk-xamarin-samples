@@ -7,8 +7,8 @@ using Android.Widget;
 using AndroidX.AppCompat.App;
 using AndroidX.ConstraintLayout.Widget;
 using AndroidX.Core.Util;
-using Androidx.Window.Layout; // HACK: not sure why lowercase 'x' (preview NuGet from build server)
-using Androidx.Window.Java.Layout; // HACK: not sure why lowercase 'x' (preview NuGet from build server)
+using AndroidX.Window.Layout;
+using AndroidX.Window.Java.Layout;
 using Java.Lang;
 using Java.Util.Concurrent;
 using Java.Interop; // HACK: need to JavaCast IDisplayFeature to IFoldingFeature
