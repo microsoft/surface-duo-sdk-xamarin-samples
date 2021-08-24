@@ -11,21 +11,22 @@ using AndroidX.Window.Layout;
 using AndroidX.Window.Java.Layout;
 using Java.Lang;
 using Java.Util.Concurrent;
-using Java.Interop; // HACK: need to JavaCast IDisplayFeature to IFoldingFeature
+using Java.Interop;
 
 /*
  This sample is a C# port of this Kotlin code
  https://github.com/googlecodelabs/android-foldable-codelab/tree/main/window-manager
  which is part of a Google Codelab that explains how to use Window Manager
 
-18-Aug-21: updated to AndroidX.Window-1.0.0-beta01
-            Changing IFoldingFeature to interface broke the 'automatic' casting :(
-17-Aug-21: updated to AndroidX.Window-1.0.0-alpha10 with
-            AndroidX.Window.Java-1.0.0-alpha10 Java-compatibility API
 19-Jul-21 Update to androidx.window-1.0.0-apha09
 		  FoldingFeature API changes - some properties became methods (GetOrientation, GetState, GetOcclusionType) and their types became "enums" (static class fields)
           Use OnStart/Stop instead of OnAttachedToWindow/OnDetached
- */
+17-Aug-21 Updated to AndroidX.Window-1.0.0-alpha10 with
+          AndroidX.Window.Java-1.0.0-alpha10 Java-compatibility API
+18-Aug-21 Updated to AndroidX.Window-1.0.0-beta01
+          Changing IFoldingFeature to interface broke the 'automatic' casting :(
+          HACK: need to JavaCast IDisplayFeature to IFoldingFeature
+*/
 namespace WindowManagerDemo
 {
     [Activity(Label = "@string/app_name",
