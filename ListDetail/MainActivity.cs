@@ -6,7 +6,8 @@ using Android.Views;
 using AndroidX.AppCompat.App;
 using AndroidX.Fragment.App;
 using ListDetail.Fragments;
-using AndroidX.Window;
+using AndroidX.Window.Layout;
+using AndroidX.Window.Java.Layout;
 using AndroidX.Core.Util;
 using Java.Util.Concurrent;
 using Java.Lang;
@@ -24,8 +25,8 @@ namespace ListDetail
 	public class MainActivity : AppCompatActivity, IConsumer
 	{
 		const string TAG = "JWM"; // Jetpack Window Manager
-		WindowManager wm;
-		FoldingFeature.Orientation hingeOrientation = FoldingFeature.Orientation.Vertical;
+		WindowInfoRepositoryCallbackAdapter wir;
+		FoldingFeatureOrientation hingeOrientation = FoldingFeatureOrientation.Vertical;
 		bool isDuo, isDualMode;
 
 		SinglePortrait singlePortrait;
@@ -39,11 +40,14 @@ namespace ListDetail
 			singlePortrait = SinglePortrait.NewInstance(items);
 			dualPortrait = DualPortrait.NewInstance(items);
 
-			wm = new WindowManager(this);
+			wir = new WindowInfoRepositoryCallbackAdapter(WindowInfoRepository.Companion.GetOrCreate(this));
+			wir.AddWindowLayoutInfoListener(runOnUiThreadExecutor(), this);
+
 
 			SetupLayout();
 		}
 
+		#region Used by WindowInfoRepository callback
 		IExecutor runOnUiThreadExecutor()
 		{
 			return new MyExecutor();
@@ -56,6 +60,7 @@ namespace ListDetail
 				handler.Post(r);
 			}
 		}
+		#endregion
 
 		public void Accept(Java.Lang.Object newLayoutInfo)  // Object will be WindowLayoutInfo
 		{
@@ -67,15 +72,17 @@ namespace ListDetail
 			}
 			else
 			{
-				foreach (var df in wli.DisplayFeatures)
+				foreach (var displayFeature in wli.DisplayFeatures)
 				{
-					Log.Info(TAG, "Bounds:" + df.Bounds);
-					var ff = df as FoldingFeature;
-					if (!(ff is null))
+					Log.Info(TAG, "Bounds:" + displayFeature.Bounds);
+					
+					var foldingFeature = displayFeature.JavaCast<IFoldingFeature>();
+
+					if (!(foldingFeature is null))
 					{   // a hinge exists
-						Log.Info(TAG, "Orientation: " + ff.GetOrientation());
+						Log.Info(TAG, "Orientation: " + foldingFeature.Orientation);
 						isDualMode = true;
-						hingeOrientation = ff.GetOrientation();
+						hingeOrientation = foldingFeature.Orientation;
 						isDuo = true; //HACK: set first time we see the hinge, never un-set
 					}
 					else
@@ -87,24 +94,12 @@ namespace ListDetail
 			SetupLayout();
 		}
 
-		protected override void OnStart()
-		{
-			base.OnStart();
-			wm.RegisterLayoutChangeCallback(runOnUiThreadExecutor(), this);
-		}
-
-		protected override void OnStop()
-		{
-			base.OnStop();
-			wm.UnregisterLayoutChangeCallback(this);
-		}
-
 		void UseSingleMode()
 			=> ShowFragment(singlePortrait);
 
-		void UseDualMode(FoldingFeature.Orientation hingeOrientation)
+		void UseDualMode(FoldingFeatureOrientation hingeOrientation)
 		{
-			if (hingeOrientation == FoldingFeature.Orientation.Horizontal)
+			if (hingeOrientation == FoldingFeatureOrientation.Horizontal)
 			{
 				// hinge horizontal - setting layout for double landscape
 				UseSingleMode();
