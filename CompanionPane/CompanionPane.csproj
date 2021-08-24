@@ -149,7 +149,7 @@
     <PackageReference Include="Xamarin.AndroidX.Window">
       <Version>1.0.0.1-beta01</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.AndroidX.WindowJava">
+    <PackageReference Include="Xamarin.AndroidX.Window.WindowJava">
       <Version>1.0.0.1-beta01</Version>
     </PackageReference>
   </ItemGroup>

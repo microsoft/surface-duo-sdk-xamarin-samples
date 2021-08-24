@@ -50,13 +50,25 @@ namespace WindowManagerDemo
             wmc = WindowMetricsCalculator.Companion.OrCreate; // HACK: source method is `getOrCreate`, binding generator munges this badly :(
 
             wir.AddWindowLayoutInfoListener(runOnUiThreadExecutor(), this);
-
+            
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
             constraintLayout = FindViewById<ConstraintLayout>(Resource.Id.constraint_layout);
             windowMetrics = FindViewById<TextView>(Resource.Id.window_metrics);
             layoutChange = FindViewById<TextView>(Resource.Id.layout_change);
             configurationChanged = FindViewById<TextView>(Resource.Id.configuration_changed);
+        }
+
+        protected override void OnStart()
+        {
+            base.OnStart();
+            wir.AddWindowLayoutInfoListener(runOnUiThreadExecutor(), this); // `this` is the IConsumer implementation
+        }
+    
+        protected override void OnStop()
+        {
+            base.OnStop();
+            wir.RemoveWindowLayoutInfoListener(this);
         }
 
         void printLayoutStateChange(WindowLayoutInfo newLayoutInfo)
