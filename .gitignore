@@ -18,6 +18,7 @@
 **/*.Android/**/[Rr]esource.[Dd]esigner.cs
 **/Android/**/[Rr]esource.[Dd]esigner.cs
 **/Droid/**/[Rr]esource.[Dd]esigner.cs
+[Rr]esource.[Dd]esigner.cs
 
 # Mono auto generated files
 mono_crash.*
