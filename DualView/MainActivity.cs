@@ -6,12 +6,16 @@ using Android.Widget;
 using AndroidX.AppCompat.App;
 using DualView.Fragments;
 using System.Collections.Generic;
-using AndroidX.Window;
+using AndroidX.Window.Layout;
+using AndroidX.Window.Java.Layout;
 using AndroidX.Core.Util;
 using Java.Util.Concurrent;
 using Java.Lang;
 using Android.Util;
-
+/*
+23-Aug-21 Update to androidx.window-1.0.0-beta01
+          HACK: need to JavaCast IDisplayFeature to IFoldingFeature
+*/
 namespace DualView
 {
 	[Android.App.Activity(
@@ -25,8 +29,8 @@ namespace DualView
 	public class MainActivity : AppCompatActivity, BaseFragment.IOnItemSelectedListener, IConsumer
 	{
 		const string TAG = "JWM"; // Jetpack Window Manager
-		WindowManager wm;
-		FoldingFeature.Orientation hingeOrientation = FoldingFeature.Orientation.Vertical;
+		WindowInfoRepositoryCallbackAdapter wir;
+		FoldingFeatureOrientation hingeOrientation = FoldingFeatureOrientation.Vertical;
 		bool isDuo, isDualMode;
 
 		Dictionary<string, BaseFragment> fragmentMap;
@@ -54,11 +58,14 @@ namespace DualView
 			dualLandscape.RegisterOnItemSelectedListener(this);
 			fragmentMap[GetSimpleName<DualLandscape>()] = dualLandscape;
 
-			wm = new WindowManager(this);
+			wir = new WindowInfoRepositoryCallbackAdapter(WindowInfoRepository.Companion.GetOrCreate(this));
+			wir.AddWindowLayoutInfoListener(runOnUiThreadExecutor(), this);
+
 
 			SetupLayout();
 		}
 
+		#region Used by WindowInfoRepository callback
 		IExecutor runOnUiThreadExecutor()
 		{
 			return new MyExecutor();
@@ -71,6 +78,7 @@ namespace DualView
 				handler.Post(r);
 			}
 		}
+		#endregion
 
 		public void Accept(Java.Lang.Object newLayoutInfo)  // Object will be WindowLayoutInfo
 		{
@@ -82,15 +90,17 @@ namespace DualView
 			}
 			else
 			{
-				foreach (var df in wli.DisplayFeatures)
+				foreach (var displayFeature in wli.DisplayFeatures)
 				{
-					Log.Info(TAG, "Bounds:" + df.Bounds);
-					var ff = df as FoldingFeature;
-					if (!(ff is null))
+					Log.Info(TAG, "Bounds:" + displayFeature.Bounds);
+
+					var foldingFeature = displayFeature.JavaCast<IFoldingFeature>();
+
+					if (!(foldingFeature is null))
 					{   // a hinge exists
-						Log.Info(TAG, "Orientation: " + ff.GetOrientation());
+						Log.Info(TAG, "Orientation: " + foldingFeature.Orientation);
 						isDualMode = true;
-						hingeOrientation = ff.GetOrientation();
+						hingeOrientation = foldingFeature.Orientation;
 						isDuo = true; //HACK: set first time we see the hinge, never un-set
 					}
 					else
@@ -121,9 +131,9 @@ namespace DualView
 				ShowFragment(baseFragment);
 		}
 
-		void UseDualMode(FoldingFeature.Orientation hingeOrientation)
+		void UseDualMode(FoldingFeatureOrientation hingeOrientation)
 		{
-			if (hingeOrientation == FoldingFeature.Orientation.Horizontal)
+			if (hingeOrientation == FoldingFeatureOrientation.Horizontal)
 			{   // hinge horizontal - setting layout for double landscape
 				var baseFragment = fragmentMap[GetSimpleName<DualLandscape>()];
 				if (baseFragment != null)

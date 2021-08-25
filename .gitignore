@@ -13,6 +13,13 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
+# ignore Xamarin.Android Resource.Designer.cs files
+**/*.Droid/**/[Rr]esource.[Dd]esigner.cs
+**/*.Android/**/[Rr]esource.[Dd]esigner.cs
+**/Android/**/[Rr]esource.[Dd]esigner.cs
+**/Droid/**/[Rr]esource.[Dd]esigner.cs
+[Rr]esource.[Dd]esigner.cs
+
 # Mono auto generated files
 mono_crash.*
 
@@ -348,3 +355,4 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+

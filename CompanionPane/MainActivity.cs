@@ -1,17 +1,22 @@
 ﻿
 using Android.Content.Res;
 using Android.OS;
+using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using AndroidX.AppCompat.App;
 using AndroidX.Core.Util;
 using AndroidX.Fragment.App;
-using AndroidX.Window;
+using AndroidX.Window.Layout;
+using AndroidX.Window.Java.Layout;
 using CompanionPane.Fragments;
 using Java.Lang;
 using Java.Util.Concurrent;
 using System.Linq;
-
+/*
+23-Aug-21 Update to androidx.window-1.0.0-beta01
+          HACK: need to JavaCast IDisplayFeature to IFoldingFeature
+*/
 namespace CompanionPane
 {
 	[Android.App.Activity(
@@ -24,8 +29,8 @@ namespace CompanionPane
 	public class MainActivity : AppCompatActivity, BaseFragment.IOnItemSelectedListener, IConsumer
 	{
 		const string TAG = "JWM"; // Jetpack Window Manager
-		WindowManager wm;
-		FoldingFeature.Orientation hingeOrientation = FoldingFeature.Orientation.Vertical;
+		WindowInfoRepositoryCallbackAdapter wir;
+		FoldingFeatureOrientation hingeOrientation = FoldingFeatureOrientation.Vertical;
 		bool isDuo, isDualMode;
 
 		SinglePortrait singlePortrait;
@@ -49,12 +54,13 @@ namespace CompanionPane
 			dualLandscape = DualLandscape.NewInstance(slides);
 			dualLandscape.RegisterOnItemSelectedListener(this);
 
-			wm = new WindowManager(this);
+			wir = new WindowInfoRepositoryCallbackAdapter(WindowInfoRepository.Companion.GetOrCreate(this));
+			wir.AddWindowLayoutInfoListener(runOnUiThreadExecutor(), this);
 
 			SetupLayout();
 		}
 
-
+		#region Used by WindowInfoRepository callback
 		IExecutor runOnUiThreadExecutor()
 		{
 			return new MyExecutor();
@@ -67,6 +73,7 @@ namespace CompanionPane
 				handler.Post(r);
 			}
 		}
+		#endregion
 
 		public void Accept(Java.Lang.Object newLayoutInfo)  // Object will be WindowLayoutInfo
 		{
@@ -78,15 +85,17 @@ namespace CompanionPane
 			}
 			else
 			{
-				foreach (var df in wli.DisplayFeatures)
+				foreach (var displayFeature in wli.DisplayFeatures)
 				{
-					Log.Info(TAG, "Bounds:" + df.Bounds);
-					var ff = df as FoldingFeature;
-					if (!(ff is null))
+					Log.Info(TAG, "Bounds:" + displayFeature.Bounds);
+
+					var foldingFeature = displayFeature.JavaCast<IFoldingFeature>();
+
+					if (!(foldingFeature is null))
 					{   // a hinge exists
-						Log.Info(TAG, "Orientation: " + ff.GetOrientation());
+						Log.Info(TAG, "Orientation: " + foldingFeature.Orientation);
 						isDualMode = true;
-						hingeOrientation = ff.GetOrientation();
+						hingeOrientation = foldingFeature.Orientation;
 						isDuo = true; //HACK: set first time we see the hinge, never un-set
 					}
 					else
@@ -129,9 +138,9 @@ namespace CompanionPane
 			}
 		}
 
-        void UseDualMode(FoldingFeature.Orientation hingeOrientation)
+        void UseDualMode(FoldingFeatureOrientation hingeOrientation)
 		{
-			if (hingeOrientation == FoldingFeature.Orientation.Horizontal)
+			if (hingeOrientation == FoldingFeatureOrientation.Horizontal)
 			{
 				dualLandscape.setCurrentPosition(currentPosition);
 				ShowFragment(dualLandscape);
