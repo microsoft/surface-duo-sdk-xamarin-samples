@@ -1,15 +1,10 @@
----
-page_type: sample
-name: Surface Duo - Xamarin SDK samples
-languages:
-- csharp
-products:
-- surface-duo
-- xamarin
-description: "Samples showing how to use the Surface Duo SDK to achieve dual-screen user interface patterns using Xamarin and Xamarin.Forms."
-urlFragment: all
----
-# Surface Duo - Xamarin SDK samples
+# ARCHIVE Aug 2021 - DO NOT DELETE
+
+> The Xamarin.Android samples on this branch are based on the [Xamarin.DuoSDK](https://www.nuget.org/packages/Xamarin.DuoSDK) NuGet which in turn is based on the Microsoft DisplayMask API that's shipped with the Surface Duo.
+>
+> On `main` the Xamarin.Android samples have been updated to the [Xamarin.Android.Window](https://www.nuget.org/packages/Xamarin.AndroidX.Window/) NuGet, which is based on the Jetpack Window Manager API from Google, which supports not only Surface Duo but also foldable devices from other manufacturers.
+
+# Surface Duo - Xamarin SDK samples (based on DuoSDK NuGet)
 
 This repo contains Xamarin and Xamarin.Forms Android samples for Surface Duo, all accessible from a single Visual Studio solution.
 
