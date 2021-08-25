@@ -107,6 +107,18 @@ namespace CompanionPane
 			SetupLayout();
 		}
 
+		protected override void OnStart()
+		{
+			base.OnStart();
+			wm.RegisterLayoutChangeCallback(runOnUiThreadExecutor(), this);
+		}
+
+		protected override void OnStop()
+		{
+			base.OnStop();
+			wm.UnregisterLayoutChangeCallback(this);
+		}
+
 		void ShowFragment(Fragment fragment)
 		{
 			var fragmentTransaction = SupportFragmentManager.BeginTransaction();

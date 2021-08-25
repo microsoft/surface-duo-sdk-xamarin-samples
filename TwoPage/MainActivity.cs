@@ -55,6 +55,8 @@ namespace TwoPage
 		View single;
 		View dual;
 
+		//LayoutStateChangeCallback layoutStateChangeCallback = new LayoutStateChangeCallback();
+
 		public bool ShowTwoPages { get; set; } = false;
 
 		protected override void OnCreate(Bundle savedInstanceState)

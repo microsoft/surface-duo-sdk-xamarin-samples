@@ -2,7 +2,7 @@
 
 Visit the [Window Manager for Xamarin docs](https://docs.microsoft.com/dual-screen/xamarin/) for more information on using Window Manager in your apps.
 
-18-Aug-21: Updated with Window Manager beta01 NuGets from [xamarin/AndroidX PR 362 build](https://github.com/xamarin/AndroidX/pull/362)
+> NOTE: uses Xamarin.Android.Window.WindowJava-1.0.0.1-beta01, based on Jetpack Window Manager beta01 packages
 
 ![Window Manager example spanned across two screens](../Screenshots/xamarin-window-manager.png)
 
