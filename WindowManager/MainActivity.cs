@@ -7,22 +7,26 @@ using Android.Widget;
 using AndroidX.AppCompat.App;
 using AndroidX.ConstraintLayout.Widget;
 using AndroidX.Core.Util;
-using Androidx.Window.Layout; // HACK: not sure why lowercase 'x' (preview NuGet from build server)
-using Androidx.Window.Java.Layout; // HACK: not sure why lowercase 'x' (preview NuGet from build server)
+using AndroidX.Window.Layout;
+using AndroidX.Window.Java.Layout;
 using Java.Lang;
 using Java.Util.Concurrent;
+using Java.Interop;
 
 /*
  This sample is a C# port of this Kotlin code
  https://github.com/googlecodelabs/android-foldable-codelab/tree/main/window-manager
  which is part of a Google Codelab that explains how to use Window Manager
 
-17-Aug-21: updated to AndroidX.Window-1.0.0-alpha10 with
-            AndroidX.Window.Java-1.0.0-alpha10 Java-compatibility API
 19-Jul-21 Update to androidx.window-1.0.0-apha09
 		  FoldingFeature API changes - some properties became methods (GetOrientation, GetState, GetOcclusionType) and their types became "enums" (static class fields)
           Use OnStart/Stop instead of OnAttachedToWindow/OnDetached
- */
+17-Aug-21 Updated to AndroidX.Window-1.0.0-alpha10 with
+          AndroidX.Window.Java-1.0.0-alpha10 Java-compatibility API
+18-Aug-21 Updated to AndroidX.Window-1.0.0-beta01
+          Changing IFoldingFeature to interface broke the 'automatic' casting :(
+          HACK: need to JavaCast IDisplayFeature to IFoldingFeature
+*/
 namespace WindowManagerDemo
 {
     [Activity(Label = "@string/app_name",
@@ -46,13 +50,25 @@ namespace WindowManagerDemo
             wmc = WindowMetricsCalculator.Companion.OrCreate; // HACK: source method is `getOrCreate`, binding generator munges this badly :(
 
             wir.AddWindowLayoutInfoListener(runOnUiThreadExecutor(), this);
-
+            
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
             constraintLayout = FindViewById<ConstraintLayout>(Resource.Id.constraint_layout);
             windowMetrics = FindViewById<TextView>(Resource.Id.window_metrics);
             layoutChange = FindViewById<TextView>(Resource.Id.layout_change);
             configurationChanged = FindViewById<TextView>(Resource.Id.configuration_changed);
+        }
+
+        protected override void OnStart()
+        {
+            base.OnStart();
+            wir.AddWindowLayoutInfoListener(runOnUiThreadExecutor(), this); // `this` is the IConsumer implementation
+        }
+    
+        protected override void OnStop()
+        {
+            base.OnStop();
+            wir.RemoveWindowLayoutInfoListener(this);
         }
 
         void printLayoutStateChange(WindowLayoutInfo newLayoutInfo)
@@ -65,24 +81,27 @@ namespace WindowManagerDemo
             layoutChange.Text = newLayoutInfo.ToString();
 
             configurationChanged.Text = "One logic/physical display - unspanned";
-
+            
             foreach (var displayFeature in newLayoutInfo.DisplayFeatures)
             {
-                if (displayFeature is FoldingFeature foldingFeature)
+
+                var foldingFeature = displayFeature.JavaCast<IFoldingFeature>();
+
+                if (foldingFeature != null) // HACK: requires JavaCast as shown above
                 {
                     alignViewToDeviceFeatureBoundaries(newLayoutInfo);
 
-                    if (foldingFeature.GetOcclusionType() == FoldingFeature.OcclusionType.None)
+                    if (foldingFeature.OcclusionType == FoldingFeatureOcclusionType.None)
                     {
                         configurationChanged.Text = "App is spanned across a fold";
                     }
-                    if (foldingFeature.GetOcclusionType() == FoldingFeature.OcclusionType.Full)
+                    if (foldingFeature.OcclusionType == FoldingFeatureOcclusionType.Full)
                     {
                         configurationChanged.Text = "App is spanned across a hinge";
                     }
                     configurationChanged.Text += "\nIsSeparating: " + foldingFeature.IsSeparating
-                            + "\nOrientation: " + foldingFeature.GetOrientation()  // FoldingFeature.OrientationVertical or Horizontal
-                            + "\nState: " + foldingFeature.GetState(); // FoldingFeature.StateFlat or StateHalfOpened
+                            + "\nOrientation: " + foldingFeature.Orientation  // FoldingFeature.OrientationVertical or Horizontal
+                            + "\nState: " + foldingFeature.State; // FoldingFeature.StateFlat or StateHalfOpened
                 }
                 else
                 {
@@ -95,7 +114,7 @@ namespace WindowManagerDemo
         {
             var set = new ConstraintSet();
             set.Clone(constraintLayout); // existing constraints baseline
-            var foldFeature = newLayoutInfo.DisplayFeatures[0] as FoldingFeature;
+            var foldFeature = newLayoutInfo.DisplayFeatures[0].JavaCast<IFoldingFeature>(); // HACK: as IFoldingFeature;
             //We get the display feature bounds.
             var rect = foldFeature.Bounds;
             //Set the red hinge indicator's width and height using the Bounds
@@ -112,7 +131,7 @@ namespace WindowManagerDemo
                 ConstraintSet.ParentId, ConstraintSet.Top, 0
             );
 
-            if (foldFeature.GetOrientation() == FoldingFeature.Orientation.Vertical)
+            if (foldFeature.Orientation == FoldingFeatureOrientation.Vertical)
             {
                 // Device feature is placed vertically
                 set.SetMargin(Resource.Id.device_feature, ConstraintSet.Start, rect.Left);
