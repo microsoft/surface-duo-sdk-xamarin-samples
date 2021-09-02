@@ -15,6 +15,7 @@ using Android.Util;
 /*
 23-Aug-21 Update to androidx.window-1.0.0-beta01
           HACK: need to JavaCast IDisplayFeature to IFoldingFeature
+01-Sep-21 Updated to AndroidX.Window-1.0.0-beta02
 */
 namespace DualView
 {
@@ -115,13 +116,13 @@ namespace DualView
 		protected override void OnStart()
 		{
 			base.OnStart();
-			wm.RegisterLayoutChangeCallback(runOnUiThreadExecutor(), this);
+			wir.AddWindowLayoutInfoListener(runOnUiThreadExecutor(), this);
 		}
 
 		protected override void OnStop()
 		{
 			base.OnStop();
-			wm.UnregisterLayoutChangeCallback(this);
+			wir.RemoveWindowLayoutInfoListener(this);
 		}
 
 		void UseSingleMode()

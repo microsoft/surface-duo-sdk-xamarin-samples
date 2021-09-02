@@ -41,9 +41,7 @@ namespace ListDetail
 			dualPortrait = DualPortrait.NewInstance(items);
 
 			wir = new WindowInfoRepositoryCallbackAdapter(WindowInfoRepository.Companion.GetOrCreate(this));
-			wir.AddWindowLayoutInfoListener(runOnUiThreadExecutor(), this);
-
-
+			
 			SetupLayout();
 		}
 
@@ -97,13 +95,13 @@ namespace ListDetail
 		protected override void OnStart()
 		{
 			base.OnStart();
-			wm.RegisterLayoutChangeCallback(runOnUiThreadExecutor(), this);
+			wir.AddWindowLayoutInfoListener(runOnUiThreadExecutor(), this);
 		}
 
 		protected override void OnStop()
 		{
 			base.OnStop();
-			wm.UnregisterLayoutChangeCallback(this);
+			wir.RemoveWindowLayoutInfoListener(this);
 		}
 
 		void UseSingleMode()

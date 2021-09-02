@@ -16,6 +16,7 @@ using System.Linq;
 /*
 23-Aug-21 Update to androidx.window-1.0.0-beta01
           HACK: need to JavaCast IDisplayFeature to IFoldingFeature
+01-Sep-21 Updated to AndroidX.Window-1.0.0-beta02
 */
 namespace CompanionPane
 {
@@ -55,8 +56,7 @@ namespace CompanionPane
 			dualLandscape.RegisterOnItemSelectedListener(this);
 
 			wir = new WindowInfoRepositoryCallbackAdapter(WindowInfoRepository.Companion.GetOrCreate(this));
-			wir.AddWindowLayoutInfoListener(runOnUiThreadExecutor(), this);
-
+			
 			SetupLayout();
 		}
 
@@ -110,13 +110,13 @@ namespace CompanionPane
 		protected override void OnStart()
 		{
 			base.OnStart();
-			wm.RegisterLayoutChangeCallback(runOnUiThreadExecutor(), this);
+			wir.AddWindowLayoutInfoListener(runOnUiThreadExecutor(), this);
 		}
 
 		protected override void OnStop()
 		{
 			base.OnStop();
-			wm.UnregisterLayoutChangeCallback(this);
+			wir.RemoveWindowLayoutInfoListener(this);
 		}
 
 		void ShowFragment(Fragment fragment)
