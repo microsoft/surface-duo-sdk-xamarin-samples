@@ -26,13 +26,13 @@ using Java.Interop;
 18-Aug-21 Updated to AndroidX.Window-1.0.0-beta01
           Changing IFoldingFeature to interface broke the 'automatic' casting :(
           HACK: need to JavaCast IDisplayFeature to IFoldingFeature
+01-Sep-21 Updated to AndroidX.Window-1.0.0-beta02
 */
 namespace WindowManagerDemo
 {
     [Activity(Label = "@string/app_name",
     Theme = "@style/AppTheme",
-    MainLauncher = true)]//, // HACK: for some reason the Window Manager doesn't work when configuration changes are being handled 
-    //ConfigurationChanges = Android.Content.PM.ConfigChanges.ScreenSize | Android.Content.PM.ConfigChanges.ScreenLayout | Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.SmallestScreenSize)]
+    MainLauncher = true)]    //ConfigurationChanges = Android.Content.PM.ConfigChanges.ScreenSize | Android.Content.PM.ConfigChanges.ScreenLayout | Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.SmallestScreenSize)]
     public class MainActivity : AppCompatActivity, IConsumer
     {
         const string TAG = "JWM"; // Jetpack Window Manager
