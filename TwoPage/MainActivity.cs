@@ -30,6 +30,7 @@ using Android.Util;
 		  Use OnStart/Stop instead of OnAttachedToWindow/OnDetached
 23-Aug-21 Update to androidx.window-1.0.0-beta01
           HACK: need to JavaCast IDisplayFeature to IFoldingFeature
+01-Sep-21 Updated to AndroidX.Window-1.0.0-beta02
 */
 namespace TwoPage
 {
@@ -55,8 +56,6 @@ namespace TwoPage
 		View single;
 		View dual;
 
-		//LayoutStateChangeCallback layoutStateChangeCallback = new LayoutStateChangeCallback();
-
 		public bool ShowTwoPages { get; set; } = false;
 
 		protected override void OnCreate(Bundle savedInstanceState)
@@ -66,7 +65,6 @@ namespace TwoPage
 			pagerAdapter = new PagerAdapter(SupportFragmentManager, fragments);
 
 			wir = new WindowInfoRepositoryCallbackAdapter(WindowInfoRepository.Companion.GetOrCreate(this));
-			wir.AddWindowLayoutInfoListener(runOnUiThreadExecutor(), this);
 
 			single = LayoutInflater.Inflate(Resource.Layout.activity_main, null);
 			dual = LayoutInflater.Inflate(Resource.Layout.double_landscape_layout, null);
@@ -121,6 +119,18 @@ namespace TwoPage
 				}
 			}
 			SetupLayout();
+		}
+
+		protected override void OnStart()
+		{
+			base.OnStart();
+			wir.AddWindowLayoutInfoListener(runOnUiThreadExecutor(), this);
+		}
+
+		protected override void OnStop()
+		{
+			base.OnStop();
+			wir.RemoveWindowLayoutInfoListener(this);
 		}
 
 		void UseSingleMode()

@@ -25,6 +25,6 @@ namespace CompanionPane
 
 		public static IEnumerable<Slide> Slides =>
 			Enumerable.Range(0, 9)
-			.Select(i => new Slide($"Slide {i + 1}", $"Slide Content {i + 1}"));
+			.Select(i => new Slide($"Slide {i + 1}", $"Slide content {i + 1}"));
 	}
 }
