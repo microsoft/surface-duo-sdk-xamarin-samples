@@ -35,7 +35,7 @@ The Surface Duo 2 emulator will appear as `<build> (Android 11.0 - API 30)`.
 ### Xamarin.Android
 Every sample of Xamarin.Android is a runable project. To start for example the `CampanionPane` sample, expand the `Xamarin.Android Native` folder and set the related sample as *Startup project*.
 
-![Xamarin.Android Surface Duo Companion view sample screenshot](SCreenshots/xamarin-companion-shrinked.png)
+![Xamarin.Android Surface Duo Companion view sample screenshot](Screenshots/xamarin-companion-shrinked.png)
 
 #### CompanionPane
 The `companion pane` pattern is a great opportunity to take advantage of added screen real-estate by taking second-level surfaces that are otherwise hidden and exposing them when the app is spanned.
