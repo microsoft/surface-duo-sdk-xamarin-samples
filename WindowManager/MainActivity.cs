@@ -27,6 +27,7 @@ using Java.Interop;
           Changing IFoldingFeature to interface broke the 'automatic' casting :(
           HACK: need to JavaCast IDisplayFeature to IFoldingFeature
 01-Sep-21 Updated to AndroidX.Window-1.0.0-beta02
+02-Nov-21 Updated to AndroidX.Window-1.0.0-beta03
 */
 namespace WindowManagerDemo
 {

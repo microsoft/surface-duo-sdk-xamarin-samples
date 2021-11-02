@@ -31,6 +31,7 @@ using Android.Util;
 23-Aug-21 Update to androidx.window-1.0.0-beta01
           HACK: need to JavaCast IDisplayFeature to IFoldingFeature
 01-Sep-21 Updated to AndroidX.Window-1.0.0-beta02
+02-Nov-21 Updated to AndroidX.Window-1.0.0-beta03
 */
 namespace TwoPage
 {
