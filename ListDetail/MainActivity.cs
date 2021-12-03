@@ -12,7 +12,14 @@ using AndroidX.Core.Util;
 using Java.Util.Concurrent;
 using Java.Lang;
 using Android.Util;
-
+/*
+23-Aug-21 Update to androidx.window-1.0.0-beta01
+          HACK: need to JavaCast IDisplayFeature to IFoldingFeature
+01-Sep-21 Updated to AndroidX.Window-1.0.0-beta02
+02-Nov-21 Updated to AndroidX.Window-1.0.0-beta03 (note: beta03 was never deployed to NuGet.org)
+02-Dec-21 Updated to AndroidX.Window-1.0.0-beta04
+          Renamed WindowInfoRepository to WindowInfoTracker, added Activity context parameter
+*/
 namespace ListDetail
 {
 	[Android.App.Activity(
@@ -25,7 +32,7 @@ namespace ListDetail
 	public class MainActivity : AppCompatActivity, IConsumer
 	{
 		const string TAG = "JWM"; // Jetpack Window Manager
-		WindowInfoRepositoryCallbackAdapter wir;
+		WindowInfoTrackerCallbackAdapter wit;
 		FoldingFeatureOrientation hingeOrientation = FoldingFeatureOrientation.Vertical;
 		bool isDuo, isDualMode;
 
@@ -40,7 +47,7 @@ namespace ListDetail
 			singlePortrait = SinglePortrait.NewInstance(items);
 			dualPortrait = DualPortrait.NewInstance(items);
 
-			wir = new WindowInfoRepositoryCallbackAdapter(WindowInfoRepository.Companion.GetOrCreate(this));
+			wit = new WindowInfoTrackerCallbackAdapter(WindowInfoTracker.Companion.GetOrCreate(this));
 			
 			SetupLayout();
 		}
@@ -95,13 +102,14 @@ namespace ListDetail
 		protected override void OnStart()
 		{
 			base.OnStart();
-			wir.AddWindowLayoutInfoListener(runOnUiThreadExecutor(), this);
+			wit.AddWindowLayoutInfoListener(this, runOnUiThreadExecutor(), this);
+			 // first `this` is the Activity context, second `this` is the IConsumer implementation
 		}
 
 		protected override void OnStop()
 		{
 			base.OnStop();
-			wir.RemoveWindowLayoutInfoListener(this);
+			wit.RemoveWindowLayoutInfoListener(this);
 		}
 
 		void UseSingleMode()

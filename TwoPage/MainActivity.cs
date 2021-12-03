@@ -31,6 +31,9 @@ using Android.Util;
 23-Aug-21 Update to androidx.window-1.0.0-beta01
           HACK: need to JavaCast IDisplayFeature to IFoldingFeature
 01-Sep-21 Updated to AndroidX.Window-1.0.0-beta02
+02-Nov-21 Updated to AndroidX.Window-1.0.0-beta03 (note: beta03 was never deployed to NuGet.org)
+02-Dec-21 Updated to AndroidX.Window-1.0.0-beta04
+          Renamed WindowInfoRepository to WindowInfoTracker, added Activity context parameter
 */
 namespace TwoPage
 {
@@ -44,7 +47,7 @@ namespace TwoPage
 	public class MainActivity : AppCompatActivity, ViewPager.IOnPageChangeListener, IConsumer
 	{
 		const string TAG = "JWM"; // Jetpack Window Manager
-		WindowInfoRepositoryCallbackAdapter wir;
+		WindowInfoTrackerCallbackAdapter wit;
 		FoldingFeatureOrientation hingeOrientation = FoldingFeatureOrientation.Vertical;
 		bool isDuo, isDualMode; 
 		
@@ -64,7 +67,7 @@ namespace TwoPage
 			var fragments = TestFragment.Fragments;
 			pagerAdapter = new PagerAdapter(SupportFragmentManager, fragments);
 
-			wir = new WindowInfoRepositoryCallbackAdapter(WindowInfoRepository.Companion.GetOrCreate(this));
+			wit = new WindowInfoTrackerCallbackAdapter(WindowInfoTracker.Companion.GetOrCreate(this));
 
 			single = LayoutInflater.Inflate(Resource.Layout.activity_main, null);
 			dual = LayoutInflater.Inflate(Resource.Layout.double_landscape_layout, null);
@@ -124,13 +127,14 @@ namespace TwoPage
 		protected override void OnStart()
 		{
 			base.OnStart();
-			wir.AddWindowLayoutInfoListener(runOnUiThreadExecutor(), this);
+			wit.AddWindowLayoutInfoListener(this, runOnUiThreadExecutor(), this);
+			// first `this` is the Activity context, second `this` is the IConsumer implementation
 		}
 
 		protected override void OnStop()
 		{
 			base.OnStop();
-			wir.RemoveWindowLayoutInfoListener(this);
+			wit.RemoveWindowLayoutInfoListener(this);
 		}
 
 		void UseSingleMode()
