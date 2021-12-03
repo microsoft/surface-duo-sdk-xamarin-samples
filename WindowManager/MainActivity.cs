@@ -27,7 +27,9 @@ using Java.Interop;
           Changing IFoldingFeature to interface broke the 'automatic' casting :(
           HACK: need to JavaCast IDisplayFeature to IFoldingFeature
 01-Sep-21 Updated to AndroidX.Window-1.0.0-beta02
-02-Nov-21 Updated to AndroidX.Window-1.0.0-beta03
+02-Nov-21 Updated to AndroidX.Window-1.0.0-beta03 (note: beta03 was never deployed to NuGet.org)
+02-Dec-21 Updated to AndroidX.Window-1.0.0-beta04
+          Renamed WindowInfoRepository to WindowInfoTracker, added Activity context parameter
 */
 namespace WindowManagerDemo
 {
@@ -37,7 +39,7 @@ namespace WindowManagerDemo
     public class MainActivity : AppCompatActivity, IConsumer
     {
         const string TAG = "JWM"; // Jetpack Window Manager
-        WindowInfoRepositoryCallbackAdapter wir;
+        WindowInfoTrackerCallbackAdapter wit;
         IWindowMetricsCalculator wmc;
 
         ConstraintLayout constraintLayout;
@@ -47,7 +49,7 @@ namespace WindowManagerDemo
         {
             base.OnCreate(savedInstanceState);
 
-            wir = new WindowInfoRepositoryCallbackAdapter(WindowInfoRepository.Companion.GetOrCreate(this));
+            wit = new WindowInfoTrackerCallbackAdapter(WindowInfoTracker.Companion.GetOrCreate(this));
             wmc = WindowMetricsCalculator.Companion.OrCreate; // HACK: source method is `getOrCreate`, binding generator munges this badly :(
            
             // Set our view from the "main" layout resource
@@ -61,13 +63,14 @@ namespace WindowManagerDemo
         protected override void OnStart()
         {
             base.OnStart();
-            wir.AddWindowLayoutInfoListener(runOnUiThreadExecutor(), this); // `this` is the IConsumer implementation
+            wit.AddWindowLayoutInfoListener(this, runOnUiThreadExecutor(), this); 
+            // first `this` is the Activity context, second `this` is the IConsumer implementation
         }
     
         protected override void OnStop()
         {
             base.OnStop();
-            wir.RemoveWindowLayoutInfoListener(this);
+            wit.RemoveWindowLayoutInfoListener(this);
         }
 
         void printLayoutStateChange(WindowLayoutInfo newLayoutInfo)

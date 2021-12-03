@@ -19,7 +19,7 @@
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v12.0</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
@@ -102,11 +102,8 @@
     <PackageReference Include="Xamarin.AndroidX.ConstraintLayout">
       <Version>2.0.4.2</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.AndroidX.Window">
-      <Version>1.0.0.3-beta03</Version>
-    </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.Window.WindowJava">
-      <Version>1.0.0.3-beta03</Version>
+      <Version>1.0.0.5-beta04</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Google.Android.Material" Version="1.4.0" />
   </ItemGroup>
