@@ -21,6 +21,7 @@ using System.Linq;
 02-Dec-21 Updated to AndroidX.Window-1.0.0-beta04
           Renamed WindowInfoRepository to WindowInfoTracker, added Activity context parameter
 16-Dec-21 Updated to AndroidX.Window-1.0.0-rc01
+27-Jan-22 Updated to AndroidX.Window-1.0.0 stable release!
 */
 namespace CompanionPane
 {
