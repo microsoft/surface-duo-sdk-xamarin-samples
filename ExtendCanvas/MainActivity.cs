@@ -9,7 +9,10 @@ using Android.Webkit;
 using Android.Widget;
 using AndroidX.AppCompat.App;
 using Java.Interop;
-
+/*
+16-Dec-21 Updated to AndroidX.Window-1.0.0-rc01
+09-Feb-22 Updated to AndroidX.Window-1.0.0 stable
+*/
 namespace ExtendCanvas
 {
 	[Activity(

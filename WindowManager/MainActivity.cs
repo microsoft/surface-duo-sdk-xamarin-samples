@@ -18,7 +18,7 @@ using Java.Interop;
  https://github.com/googlecodelabs/android-foldable-codelab/tree/main/window-manager
  which is part of a Google Codelab that explains how to use Window Manager
 
-19-Jul-21 Update to androidx.window-1.0.0-apha09
+19-Jul-21 Update to androidx.window-1.0.0-alpha09
 		  FoldingFeature API changes - some properties became methods (GetOrientation, GetState, GetOcclusionType) and their types became "enums" (static class fields)
           Use OnStart/Stop instead of OnAttachedToWindow/OnDetached
 17-Aug-21 Updated to AndroidX.Window-1.0.0-alpha10 with
@@ -30,6 +30,9 @@ using Java.Interop;
 02-Nov-21 Updated to AndroidX.Window-1.0.0-beta03 (note: beta03 was never deployed to NuGet.org)
 02-Dec-21 Updated to AndroidX.Window-1.0.0-beta04
           Renamed WindowInfoRepository to WindowInfoTracker, added Activity context parameter
+16-Dec-21 Updated to AndroidX.Window-1.0.0-rc01
+27-Jan-22 Updated to AndroidX.Window-1.0.0 stable release!
+09-Feb-22 Updated to AndroidX.Window-1.0.0 stable
 */
 namespace WindowManagerDemo
 {
