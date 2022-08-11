@@ -99,14 +99,14 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.3.1.5" />
+    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.4.2.1" />
     <PackageReference Include="Xamarin.AndroidX.ConstraintLayout">
-      <Version>2.1.2.2</Version>
+      <Version>2.1.4.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.Window.WindowJava">
-      <Version>1.0.0.7</Version>
+      <Version>1.0.0.9</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Google.Android.Material" Version="1.4.0.6" />
+    <PackageReference Include="Xamarin.Google.Android.Material" Version="1.6.1.1" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ic_launcher_background.xml">
