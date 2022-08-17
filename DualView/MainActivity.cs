@@ -21,7 +21,8 @@ using Android.Util;
           Renamed WindowInfoRepository to WindowInfoTracker, added Activity context parameter
 16-Dec-21 Updated to AndroidX.Window-1.0.0-rc01
 27-Jan-22 Updated to AndroidX.Window-1.0.0 stable release!
-09-Feb-22 Updated to AndroidX.Window-1.0.0 stable
+09-Feb-22 Updated to AndroidX.Window-1.0.0 stable (NuGet v1.0.0.7)
+10-Aug-22 Updated to AndroidX.Window-1.0.0 stable (NuGet v1.0.0.9)
 */
 namespace DualView
 {
