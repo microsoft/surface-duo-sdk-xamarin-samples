@@ -5,7 +5,6 @@ languages:
 - csharp
 products:
 - surface-duo
-- xamarin
 description: "Samples showing how to use the Surface Duo SDK to achieve dual-screen user interface patterns using Xamarin and Xamarin.Forms."
 urlFragment: all
 ---
